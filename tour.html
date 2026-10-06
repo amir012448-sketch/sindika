@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090c">
+<title>Брокер тур — СИНДИКА</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   СИНДИКА — Visual System v3 (Cinematic dark / aurora / mint-gold)
+   ========================================================= */
+:root{
+  --bg-0:#07090c;
+  --bg:#0a0e12;
+  --bg-2:#10151a;
+  --bg-3:#181e24;
+  --bg-4:#222a31;
+  --bg-hi:#2d353d;
+
+  --line:rgba(255,255,255,.07);
+  --line-2:rgba(255,255,255,.13);
+  --line-3:rgba(255,255,255,.20);
+
+  --text:#f5f2ec;
+  --text-2:rgba(245,242,236,.68);
+  --text-3:rgba(245,242,236,.42);
+  --text-4:rgba(245,242,236,.26);
+
+  --sand:#cbc2ac;
+  --sand-2:#e0d7c1;
+  --sand-glow:rgba(203,194,172,.32);
+
+  --mint:#5ff0d0;
+  --mint-2:#3ddbb9;
+  --mint-soft:rgba(95,240,208,.16);
+  --mint-glow:rgba(95,240,208,.45);
+
+  --gold:#ffd978;
+  --gold-soft:rgba(255,217,120,.16);
+  --gold-glow:rgba(255,217,120,.38);
+
+  --rose:#ff8095;
+  --lilac:#b39bff;
+  --sky:#7ab8ff;
+
+  --ok:#4ade80;
+  --danger:#ef4444;
+
+  --border-soft:rgba(255,255,255,.075);
+  --border-mid:rgba(255,255,255,.11);
+  --border-strong:rgba(255,255,255,.16);
+
+  --shadow-xs:0 2px 6px -2px rgba(0,0,0,.6);
+  --shadow-sm:0 8px 20px -12px rgba(0,0,0,.85);
+  --shadow-md:0 16px 38px -26px rgba(0,0,0,.95);
+  --shadow-lg:0 24px 56px -32px rgba(0,0,0,1);
+  --shadow-inner:inset 0 1px 0 rgba(255,255,255,.06);
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+
+  --fs-xxs: clamp(9.5px,  min(0.62vw, 0.85vh), 11.5px);
+  --fs-xs:  clamp(10.5px, min(0.72vw, 1.05vh), 12.5px);
+  --fs-sm:  clamp(12px,   min(0.82vw, 1.2vh),  13.5px);
+  --fs-base:clamp(13px,   min(0.92vw, 1.4vh),  15px);
+  --fs-md:  clamp(14px,   min(1.02vw, 1.55vh), 16px);
+  --fs-lg:  clamp(15.5px, min(1.15vw, 1.75vh), 18px);
+  --fs-xl:  clamp(17px,   min(1.35vw, 2vh),    21px);
+  --fs-2xl: clamp(19px,   min(1.6vw,  2.4vh),  25px);
+  --fs-h3:  clamp(15px,   min(1.25vw, 1.85vh), 20px);
+  --fs-h2:  clamp(22px,   min(3vw,    4.2vh),  44px);
+  --fs-h1:  clamp(28px,   min(4.8vw,  6.8vh),  66px);
+
+  --r:    clamp(14px, min(1.2vw, 1.8vh), 18px);
+  --r-lg: clamp(20px, min(1.8vw, 2.6vh), 28px);
+
+  --max: 1400px;
+  --gutter: clamp(14px, min(3.2vw, 4.5vh), 40px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:#050709}
+body{font-family:'Manrope',system-ui,-apple-system,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6;font-weight:400;min-height:100svh;font-size:var(--fs-base);background:linear-gradient(180deg, #0c1116 0%, #090d11 45%, #050709 100%);}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+button,input,textarea,select{font-family:inherit;color:inherit}
+::selection{background:var(--mint);color:var(--bg-0)}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.13);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--mint-glow)}
+.wrap{width:min(var(--max), calc(100% - var(--gutter)*2));margin-inline:auto}
+[hidden]{display:none!important}
+
+body::before{content:"";position:fixed;inset:-25%;z-index:-3;pointer-events:none;
+  background:
+    radial-gradient(620px 380px at 22% 20%, rgba(95,240,208,.10), transparent 62%),
+    radial-gradient(560px 340px at 78% 22%, rgba(255,217,120,.08), transparent 64%),
+    radial-gradient(640px 400px at 50% 88%, rgba(179,155,255,.07), transparent 66%),
+    radial-gradient(900px 600px at 88% 12%, rgba(10,85,92,.45) 0%, transparent 60%),
+    radial-gradient(700px 500px at 8% 32%, rgba(203,194,172,.07) 0%, transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(6,64,68,.36) 0%, transparent 60%);
+  animation:aurora 28s ease-in-out infinite alternate;filter:blur(8px);}
+@keyframes aurora{0%{transform:translate3d(-2%,-1%,0) scale(1) rotate(0deg)}50%{transform:translate3d(1.5%,1.5%,0) scale(1.04) rotate(1deg)}100%{transform:translate3d(2%,-1.5%,0) scale(1.02) rotate(-1deg)}}
+
+.scene{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;}
+.scene .arch-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(201,192,171,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,192,171,.05) 1px, transparent 1px);
+  background-size:80px 80px, 80px 80px;
+  -webkit-mask-image:radial-gradient(ellipse 100% 80% at 50% 40%, #000 0%, transparent 75%);
+  mask-image:radial-gradient(ellipse 100% 80% at 50% 40%, #000 0%, transparent 75%);
+  animation:gridDrift 60s linear infinite;}
+@keyframes gridDrift{0%{background-position:0 0,0 0}100%{background-position:80px 80px,80px 80px}}
+.mountains{position:absolute;left:-5%;right:-5%;bottom:0;height:70%;pointer-events:none;will-change:transform}
+.mountains svg{width:110%;height:100%;display:block}
+.mountains .range-1{color:rgba(60,90,96,.30)}
+.mountains .range-2{color:rgba(40,68,74,.44)}
+.mountains .range-3{color:rgba(24,44,50,.66)}
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particles span{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(95,240,208,.6);box-shadow:0 0 6px rgba(95,240,208,.7);animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translate3d(0,20vh,0);opacity:0}10%{opacity:.7}90%{opacity:.7}100%{transform:translate3d(var(--drift,20px),-110vh,0);opacity:0}}
+.scene .pulse{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);animation:pulseGlow 14s ease-in-out infinite}
+.scene .pulse.p1{width:520px;height:520px;left:8%;top:12%;background:radial-gradient(circle,rgba(95,240,208,.35) 0%,transparent 70%)}
+.scene .pulse.p2{width:640px;height:640px;right:2%;top:38%;background:radial-gradient(circle,rgba(255,217,120,.14) 0%,transparent 70%);animation-delay:-5s}
+.scene .pulse.p3{width:580px;height:580px;left:35%;bottom:8%;background:radial-gradient(circle,rgba(179,155,255,.20) 0%,transparent 70%);animation-delay:-9s}
+@keyframes pulseGlow{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+.scene .noise{position:absolute;inset:0;opacity:.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* NAV */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:100;padding:clamp(14px, min(1.6vw, 2.4vh), 22px) var(--gutter);transition:padding .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);border-bottom:1px solid transparent}
+.nav-wrap.scrolled{padding:clamp(8px, min(1vw, 1.4vh), 12px) var(--gutter);background:linear-gradient(180deg, rgba(8,12,16,.92), rgba(8,12,16,.55));backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border-bottom-color:var(--border-soft);box-shadow:0 18px 48px -32px rgba(0,0,0,1), inset 0 -1px 0 rgba(255,255,255,.04)}
+.nav-inner{width:min(var(--max), 100%);margin-inline:auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(16px, 2vw, 32px);}
+.nav-list{display:flex;gap:clamp(2px, 0.4vw, 6px);list-style:none;align-items:center;min-width:0}
+.nav-list.left{justify-self:start}
+.nav-list.right{justify-self:end}
+.nav-list a{font-size:13.5px;font-weight:500;color:rgba(245,242,236,.62);padding:8px clamp(9px, 0.85vw, 13px);border-radius:99px;transition:color .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease);white-space:nowrap;letter-spacing:.005em;position:relative;}
+.nav-list a:hover{color:var(--text);background:rgba(95,240,208,.08);box-shadow:0 0 22px -14px var(--mint-glow)}
+.brand-center{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:4px;line-height:1;transition:transform .3s var(--ease);padding:0 clamp(20px, 3vw, 48px);}
+.brand-center:hover{transform:translateY(-1px)}
+.brand-center .logo{width:clamp(50px, 2.4vw, 40px);height:auto;display:block;margin-bottom:2px;object-fit:contain;filter:drop-shadow(0 0 14px var(--sand-glow));}
+.brand-center .name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(13px, 1vw, 16px);letter-spacing:.28em;padding-left:.28em;background:linear-gradient(100deg,#ffffff 0%,#e8dfc9 38%,#7ff0dc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 20px rgba(95,240,208,.18));}
+.brand-center .sub{font-size:clamp(7px, 0.5vw, 8.5px);font-weight:700;letter-spacing:.34em;color:var(--text-4);text-transform:uppercase;padding-left:.34em;}
+
+.nav-item-dropdown{position:relative}
+.nav-list .nav-link-dropdown{display:inline-flex;align-items:center;gap:6px}
+.nav-link-dropdown .caret{width:10px;height:10px;transition:transform .3s var(--ease), opacity .25s var(--ease);opacity:.5}
+.nav-item-dropdown:hover .nav-link-dropdown,.nav-item-dropdown:focus-within .nav-link-dropdown{color:var(--text);background:rgba(95,240,208,.08);box-shadow:0 0 22px -14px var(--mint-glow)}
+.nav-item-dropdown:hover .nav-link-dropdown .caret,.nav-item-dropdown:focus-within .nav-link-dropdown .caret{transform:rotate(180deg) translateY(-1px);opacity:1}
+.dropdown-menu{position:absolute;top:calc(100% + 16px);right:0;min-width:clamp(290px, 22vw, 340px);padding:8px;background:rgba(16,21,26,.97);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border:1px solid var(--border-mid);border-radius:20px;box-shadow:0 30px 70px -20px rgba(0,0,0,.85), 0 0 32px -22px var(--mint-glow);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .28s var(--ease),visibility .28s var(--ease),transform .28s var(--ease);z-index:120;pointer-events:none;}
+.dropdown-menu::before{content:"";position:absolute;top:-16px;left:0;right:0;height:16px}
+.dropdown-menu::after{content:"";position:absolute;top:-5px;right:24px;width:10px;height:10px;background:rgba(16,21,26,.97);border-left:1px solid var(--border-mid);border-top:1px solid var(--border-mid);transform:rotate(45deg);border-radius:2px 0 0 0;}
+.nav-item-dropdown:hover .dropdown-menu,.nav-item-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;}
+.dropdown-head{padding:10px 12px 8px;font-size:9.5px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--line);margin-bottom:6px;}
+.dropdown-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;transition:background .22s var(--ease),transform .22s var(--ease);}
+.dropdown-item:hover{background:rgba(95,240,208,.06);transform:translateX(2px)}
+.dropdown-item .di-icon{width:36px;height:36px;flex-shrink:0;border-radius:12px;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%, rgba(95,240,208,.24), rgba(95,240,208,.08) 58%, transparent 72%);border:1px solid rgba(95,240,208,.22);color:#8ff2e1;transition:.3s var(--ease);box-shadow:0 0 22px -14px var(--mint-glow);}
+.dropdown-item:hover .di-icon{background:radial-gradient(circle at 30% 20%, rgba(95,240,208,.34), rgba(95,240,208,.12) 58%, transparent 72%);border-color:rgba(95,240,208,.4);color:#b9f4ea;}
+.dropdown-item .di-icon svg{width:15px;height:15px}
+.dropdown-item .di-text{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.dropdown-item .di-text b{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.01em;line-height:1.2}
+.dropdown-item .di-text small{font-size:11px;color:var(--text-3);font-weight:400;line-height:1.3}
+.dropdown-item .di-arrow{width:13px;height:13px;color:var(--text-3);transition:transform .25s var(--ease),color .25s var(--ease),opacity .25s var(--ease);opacity:0;transform:translateX(-4px);}
+.dropdown-item:hover .di-arrow{opacity:1;transform:translateX(0);color:var(--mint)}
+
+.burger{display:none;width:clamp(36px, 2.8vw, 42px);height:clamp(36px, 2.8vw, 42px);border-radius:13px;border:1px solid var(--border-soft);background:rgba(10,14,18,.62);cursor:pointer;justify-self:end;position:relative;backdrop-filter:blur(14px);box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,.07)}
+.burger span{position:absolute;left:12px;right:12px;height:1.5px;background:var(--text);transition:.3s var(--ease);border-radius:2px}
+.burger span:nth-child(1){top:14px}
+.burger span:nth-child(2){top:20px}
+.burger span:nth-child(3){top:26px}
+.burger.active span:nth-child(1){top:20px;transform:rotate(45deg)}
+.burger.active span:nth-child(2){opacity:0}
+.burger.active span:nth-child(3){top:20px;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:99;background:linear-gradient(180deg, #0c1116 0%, #090d11 45%, #050709 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;opacity:0;visibility:hidden;transition:opacity .35s var(--ease), visibility .35s var(--ease);padding:90px var(--gutter) 50px;overflow-y:auto}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu .mm-brand{margin-bottom:22px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.mobile-menu .mm-brand .logo{width:32px;height:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 14px var(--sand-glow));}
+.mobile-menu .mm-brand .name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:14px;letter-spacing:.28em;padding-left:.28em;background:linear-gradient(100deg,#ffffff 0%,#e8dfc9 38%,#7ff0dc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.mobile-menu a{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(20px, 5.5vw, 30px);color:var(--text);padding:6px 0;letter-spacing:-.02em;transform:translateY(12px);opacity:0;transition:.5s var(--ease)}
+.mobile-menu.open a{transform:none;opacity:1}
+.mobile-menu.open a:nth-child(2){transition-delay:.04s}
+.mobile-menu.open a:nth-child(3){transition-delay:.08s}
+.mobile-menu.open a:nth-child(4){transition-delay:.12s}
+.mobile-menu.open a:nth-child(5){transition-delay:.16s}
+.mobile-menu.open a:nth-child(6){transition-delay:.20s}
+.mobile-menu.open a:nth-child(7){transition-delay:.24s}
+.mobile-menu.open a:nth-child(8){transition-delay:.28s}
+.mobile-menu.open a:nth-child(9){transition-delay:.32s}
+.mobile-menu.open a:nth-child(10){transition-delay:.36s}
+.mobile-menu .m-cta{margin-top:18px;background:linear-gradient(110deg, #ffe2a2 0%, #cbc2ac 38%, #5ff0d0 100%);color:#081013;font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;padding:14px 28px;border-radius:99px;letter-spacing:0;border:1px solid rgba(255,255,255,.36);box-shadow:0 18px 42px -18px rgba(255,217,120,.5), 0 18px 48px -22px rgba(95,240,208,.5), inset 0 1px 0 rgba(255,255,255,.6)}
+.mobile-menu .mm-subgroup{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:2px 0 8px;max-width:min(100%,560px);transform:translateY(12px);opacity:0;transition:.5s var(--ease);}
+.mobile-menu.open .mm-subgroup{transform:none;opacity:1;transition-delay:.14s}
+.mobile-menu .mm-subgroup a{font-family:'Manrope',sans-serif!important;font-size:clamp(11px,2.8vw,13px)!important;color:var(--text-2)!important;padding:6px 14px!important;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;letter-spacing:.01em!important;transition:.25s var(--ease);}
+.mobile-menu .mm-subgroup a:hover{color:var(--mint)!important;border-color:rgba(95,240,208,.35);background:rgba(95,240,208,.06);box-shadow:0 0 22px -14px var(--mint-glow)}
+
+/* PAGE HEAD */
+.page-head{padding:clamp(120px, 14vh, 170px) 0 clamp(20px, 3vh, 40px)}
+.crumb{display:flex;gap:8px;align-items:center;font-size:var(--fs-xs);font-weight:650;color:var(--text-3);margin-bottom:clamp(16px, 2.2vh, 24px);flex-wrap:wrap}
+.crumb a{transition:.25s var(--ease)}
+.crumb a:hover{color:var(--mint)}
+.crumb svg{width:11px;height:11px;opacity:.5}
+.page-head h1{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(30px, min(4vw, 5.5vh), 60px);line-height:1.06;letter-spacing:-.035em;color:var(--text);max-width:18ch;margin-bottom:clamp(14px, 2vh, 20px)}
+.page-head h1 em{font-style:normal;background:linear-gradient(90deg, #ffe6a8 0%, #ffffff 42%, #6ff0d8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(95,240,208,.20))}
+.page-head > .wrap > p{max-width:62ch;color:var(--text-2);font-size:var(--fs-md);line-height:1.7}
+.hero-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:clamp(20px, 3vh, 30px)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:7px clamp(12px, 1.2vw, 15px);border-radius:99px;font-size:var(--fs-xs);font-weight:750;color:#d9fff7;background:linear-gradient(135deg, rgba(95,240,208,.14), rgba(255,255,255,.06));border:1px solid rgba(95,240,208,.32);backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 0 26px -12px var(--mint-glow)}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(95,240,208,.5);animation:pulseDot 2.4s infinite}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(95,240,208,.5)}50%{box-shadow:0 0 0 8px rgba(95,240,208,0)}}
+
+/* TOUR HERO CARD */
+.tour-hero{padding:0 0 clamp(40px, 5vh, 60px)}
+.tour-card{position:relative;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border-mid);display:grid;grid-template-columns:1.05fr .95fr;gap:0;box-shadow:0 60px 120px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(95,240,208,.06), inset 0 1px 0 rgba(255,255,255,.06);isolation:isolate}
+.tour-card::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(560px 260px at 84% -10%, rgba(95,240,208,.30), transparent 58%),
+  radial-gradient(440px 280px at 0% 100%, rgba(255,217,120,.18), transparent 60%),
+  radial-gradient(300px 200px at 50% 50%, rgba(179,155,255,.10), transparent 70%),
+  linear-gradient(145deg, rgba(13,106,114,.72), rgba(6,64,68,.78) 48%, rgba(10,16,19,.94));
+  z-index:0;}
+.tour-card > *{position:relative;z-index:2}
+.tour-card-left{padding:clamp(28px, min(4.5vw, 6vh), 60px) clamp(24px, min(3.8vw, 5vh), 52px);display:flex;flex-direction:column;justify-content:center;gap:clamp(16px, 2.4vh, 28px)}
+.tour-card-left h2{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(22px, min(2.6vw, 3.8vh), 40px);line-height:1.1;letter-spacing:-.03em;color:var(--text)}
+.tour-card-left h2 em{font-style:normal;background:linear-gradient(90deg, #ffe6a8, #7ff0dc);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(95,240,208,.20))}
+.tour-card-left > p{color:var(--text-2);font-size:var(--fs-md);line-height:1.7;max-width:48ch}
+.tour-info-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.tour-info-row{display:flex;gap:14px;align-items:center;padding:clamp(10px, 1.4vh, 14px) clamp(12px, 1.3vw, 16px);background:rgba(255,255,255,.045);border:1px solid var(--border-soft);border-radius:16px;transition:.3s var(--ease);backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.tour-info-row:hover{background:rgba(95,240,208,.06);border-color:rgba(95,240,208,.24);transform:translateY(-1px);box-shadow:0 22px 46px -30px rgba(0,0,0,1), 0 0 28px -18px var(--mint-glow), inset 0 1px 0 rgba(255,255,255,.07)}
+.tour-info-row .ti{width:clamp(36px, 2.8vw, 44px);height:clamp(36px, 2.8vw, 44px);border-radius:14px;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%, rgba(95,240,208,.24), rgba(95,240,208,.08) 58%, transparent 72%);border:1px solid rgba(95,240,208,.26);color:#8ff2e1;flex-shrink:0;box-shadow:0 0 22px -12px var(--mint-glow)}
+.tour-info-row .ti svg{width:16px;height:16px}
+.tour-info-row .tl{font-size:var(--fs-xxs);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:2px}
+.tour-info-row .tv{font-size:var(--fs-sm);font-weight:700;color:var(--text)}
+
+.tour-card-right{position:relative;min-height:clamp(340px, 42vh, 520px);overflow:hidden;background:linear-gradient(155deg,#0a555c 0%, #064044 55%, #0d1f22 100%)}
+.tour-card-right .stage-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.75)}
+.tour-card-right::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 50% 30%, rgba(95,240,208,.12) 0%, transparent 60%),
+  repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 22px),
+  repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 26px);
+  mix-blend-mode:overlay;pointer-events:none;z-index:1}
+.tour-card-right::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%, rgba(8,14,18,.94) 100%);z-index:1}
+.tour-card-right .mark{position:absolute;top:clamp(18px, 2.4vh, 32px);right:clamp(18px, 2.4vh, 32px);width:clamp(56px, 5vw, 80px);height:clamp(56px, 5vw, 80px);color:rgba(95,240,208,.42);z-index:2;filter:drop-shadow(0 0 22px rgba(95,240,208,.3))}
+.tour-card-right .caption{position:absolute;bottom:clamp(20px, 2.8vh, 36px);left:clamp(20px, 2.8vh, 36px);right:clamp(20px, 2.8vh, 36px);z-index:3;color:var(--text)}
+.tour-card-right .caption span{display:block;font-size:var(--fs-xxs);letter-spacing:.28em;text-transform:uppercase;color:var(--mint);margin-bottom:10px;font-weight:800;text-shadow:0 0 22px rgba(95,240,208,.24)}
+.tour-card-right .caption h3{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(17px, min(1.8vw, 2.6vh), 26px);line-height:1.2;letter-spacing:-.02em;max-width:20ch}
+
+/* SECTIONS */
+section{position:relative;padding:clamp(50px, min(7vw, 9vh), 100px) 0}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(20px, 3vw, 44px);margin-bottom:clamp(28px, min(4vw, 5vh), 52px);flex-wrap:wrap}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs);font-weight:800;color:#9bf3e4;padding:6px 13px;border-radius:99px;background:linear-gradient(135deg, rgba(95,240,208,.14), rgba(255,217,120,.08));border:1px solid rgba(95,240,208,.28);margin-bottom:clamp(10px, 1.5vh, 20px);letter-spacing:.06em;text-transform:uppercase;box-shadow:0 0 22px -12px var(--mint-glow)}
+h2{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:var(--fs-h2);line-height:1.08;letter-spacing:-.035em;color:var(--text);max-width:20ch}
+h2 em{font-style:normal;background:linear-gradient(90deg, #fff, #ffd978, #5ff0d0);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(95,240,208,.14))}
+.sec-sub{max-width:48ch;color:var(--text-2);font-size:var(--fs-md);line-height:1.7}
+
+/* DAYS */
+.day-grid{display:flex;flex-direction:column;gap:clamp(12px, 1.6vh, 18px)}
+.day-card{background:linear-gradient(180deg, rgba(255,255,255,.078), rgba(255,255,255,.022));border:1px solid var(--border-soft);border-radius:var(--r-lg);padding:clamp(22px, min(2.8vw, 3.6vh), 34px) clamp(20px, min(2.6vw, 3.4vh), 34px);display:grid;grid-template-columns:auto 1fr;gap:clamp(18px, 2.4vw, 30px);transition:.35s var(--ease);box-shadow:var(--shadow-md), var(--shadow-inner);position:relative;overflow:hidden}
+.day-card::before{content:"";position:absolute;top:0;left:0;width:48px;height:2px;background:linear-gradient(90deg, var(--mint), transparent);border-radius:0 2px 2px 0;opacity:.75}
+.day-card:hover{border-color:rgba(95,240,208,.26);background:linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.028));transform:translateY(-3px);box-shadow:0 30px 66px -34px rgba(0,0,0,1), 0 0 36px -22px var(--mint-glow), inset 0 1px 0 rgba(255,255,255,.10)}
+.day-badge{width:clamp(72px, 7vw, 100px);height:clamp(72px, 7vw, 100px);border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:
+  radial-gradient(560px 260px at 84% -10%, rgba(95,240,208,.36), transparent 58%),
+  radial-gradient(440px 280px at 0% 100%, rgba(255,217,120,.22), transparent 60%),
+  linear-gradient(145deg, rgba(13,106,114,.82), rgba(6,64,68,.86) 48%, rgba(10,16,19,.96));
+  border:1px solid rgba(95,240,208,.32);color:var(--mint);flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 0 34px -14px var(--mint-glow), inset 0 1px 0 rgba(255,255,255,.12)}
+.day-badge::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:1px;background:linear-gradient(135deg, rgba(255,255,255,.32) 0%, rgba(95,240,208,.36) 22%, transparent 42%, transparent 62%, rgba(255,217,120,.30) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.9}
+.day-badge b{font-family:'Inter Tight',sans-serif;font-weight:800;font-size:clamp(24px, 2.2vw, 30px);line-height:1;letter-spacing:-.03em;background:linear-gradient(90deg, #fff, #ffd978, #5ff0d0);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums;position:relative;z-index:1}
+.day-badge span{font-size:var(--fs-xxs);font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-top:4px;color:var(--text-3);position:relative;z-index:1}
+.day-content h3{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(17px, 1.4vw, 20px);letter-spacing:-.015em;color:var(--text);margin-bottom:10px;line-height:1.3}
+.day-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--text-3);font-weight:650;margin-bottom:14px;letter-spacing:.02em}
+.day-meta span{display:inline-flex;align-items:center;gap:5px}
+.day-meta svg{width:12px;height:12px;opacity:.85;color:var(--mint)}
+.day-content ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.day-content li{position:relative;padding-left:24px;font-size:var(--fs-sm);line-height:1.6;color:var(--text-2)}
+.day-content li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(95,240,208,.14), 0 0 12px var(--mint-glow)}
+
+/* =========================================================
+   INCLUDED — обновлено: большие фоновые знаки
+   ========================================================= */
+.inc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px, 1.6vw, 20px)}
+.inc-card{
+  position:relative;overflow:hidden;
+  padding:clamp(28px, min(3.2vw, 4.2vh), 42px) clamp(24px, min(2.8vw, 3.6vh), 38px) clamp(26px, min(3vw, 4vh), 40px);
+  background:
+    radial-gradient(420px 320px at 88% 110%, rgba(95,240,208,.14), transparent 60%),
+    radial-gradient(280px 200px at 0% 0%, rgba(255,217,120,.06), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.078), rgba(255,255,255,.022));
+  border:1px solid var(--border-soft);
+  border-radius:var(--r-lg);
+  transition:border-color .35s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
+  box-shadow:var(--shadow-md), var(--shadow-inner);
+  min-height:clamp(220px, 26vh, 280px);
+  display:flex;flex-direction:column;
+  isolation:isolate;
+}
+.inc-card:hover{
+  border-color:rgba(95,240,208,.28);
+  transform:translateY(-5px);
+  box-shadow:
+    0 34px 78px -36px rgba(0,0,0,1),
+    0 0 46px -22px var(--mint-glow),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  background:
+    radial-gradient(460px 340px at 88% 110%, rgba(95,240,208,.20), transparent 60%),
+    radial-gradient(300px 220px at 0% 0%, rgba(255,217,120,.09), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.028));
+}
+
+/* Большой фоновый знак */
+.inc-bg{
+  position:absolute;
+  right:-28px;bottom:-28px;
+  width:clamp(140px, 13vw, 200px);
+  height:clamp(140px, 13vw, 200px);
+  z-index:0;
+  pointer-events:none;
+  color:var(--mint);
+  opacity:.10;
+  transform:rotate(-12deg);
+  filter:drop-shadow(0 0 32px rgba(95,240,208,.40));
+  transition:opacity .5s var(--ease), transform .6s var(--ease), color .4s var(--ease);
+}
+.inc-bg svg{width:100%;height:100%;display:block;stroke-width:.7}
+.inc-card:hover .inc-bg{opacity:.17;transform:rotate(-8deg) scale(1.06)}
+.inc-card:nth-child(2n) .inc-bg{color:var(--gold);filter:drop-shadow(0 0 32px rgba(255,217,120,.4));transform:rotate(10deg);right:auto;left:-30px;bottom:-30px}
+.inc-card:nth-child(2n):hover .inc-bg{transform:rotate(6deg) scale(1.06)}
+.inc-card:nth-child(3n) .inc-bg{color:var(--lilac);filter:drop-shadow(0 0 32px rgba(179,155,255,.4));transform:rotate(-15deg)}
+.inc-card:nth-child(3n):hover .inc-bg{transform:rotate(-10deg) scale(1.06)}
+
+.inc-card::before{
+  content:"";position:absolute;top:0;left:22px;
+  width:44px;height:2px;
+  background:linear-gradient(90deg, var(--mint), transparent);
+  border-radius:0 2px 2px 0;opacity:.75;z-index:2;
+}
+.inc-card:nth-child(2n)::before{background:linear-gradient(90deg, var(--gold), transparent)}
+.inc-card:nth-child(3n)::before{background:linear-gradient(90deg, var(--lilac), transparent)}
+.inc-card > *:not(.inc-bg){position:relative;z-index:2}
+
+.inc-icon{
+  width:clamp(56px, 4.6vw, 68px);
+  height:clamp(56px, 4.6vw, 68px);
+  border-radius:20px;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 30% 20%, rgba(95,240,208,.30), rgba(95,240,208,.10) 58%, transparent 72%);
+  border:1px solid rgba(95,240,208,.30);
+  color:#8ff2e1;
+  margin-bottom:clamp(20px, 2.8vh, 28px);
+  box-shadow:
+    0 0 34px -14px var(--mint-glow),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .35s var(--spring), background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+}
+.inc-card:hover .inc-icon{
+  transform:translateY(-2px) scale(1.05);
+  background:radial-gradient(circle at 30% 20%, rgba(95,240,208,.44), rgba(95,240,208,.16) 58%, transparent 72%);
+  border-color:rgba(95,240,208,.5);
+  color:#b9f4ea;
+}
+.inc-icon svg{width:clamp(26px, 2vw, 32px);height:clamp(26px, 2vw, 32px)}
+.inc-card:nth-child(2n) .inc-icon{
+  background:radial-gradient(circle at 30% 20%, rgba(255,217,120,.30), rgba(255,217,120,.10) 58%, transparent 72%);
+  border-color:rgba(255,217,120,.30);color:#ffd88a;
+  box-shadow:0 0 34px -14px var(--gold-glow), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.inc-card:nth-child(2n):hover .inc-icon{
+  background:radial-gradient(circle at 30% 20%, rgba(255,217,120,.44), rgba(255,217,120,.16) 58%, transparent 72%);
+  border-color:rgba(255,217,120,.5);
+}
+.inc-card:nth-child(3n) .inc-icon{
+  background:radial-gradient(circle at 30% 20%, rgba(179,155,255,.28), rgba(179,155,255,.10) 58%, transparent 72%);
+  border-color:rgba(179,155,255,.30);color:#c4b5fd;
+  box-shadow:0 0 34px -14px rgba(179,155,255,.6), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.inc-card:nth-child(3n):hover .inc-icon{
+  background:radial-gradient(circle at 30% 20%, rgba(179,155,255,.42), rgba(179,155,255,.16) 58%, transparent 72%);
+  border-color:rgba(179,155,255,.5);
+}
+
+.inc-card h3{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(16px, 1.3vw, 19px);color:var(--text);letter-spacing:-.018em;margin-bottom:10px;line-height:1.3}
+.inc-card p{font-size:var(--fs-sm);line-height:1.65;color:var(--text-2);margin-top:auto}
+
+/* =========================================================
+   PREVIEW — обновлено: SVG-заглушки внутри
+   ========================================================= */
+.preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px, 1.6vw, 22px)}
+.preview-card{background:linear-gradient(180deg, rgba(255,255,255,.078), rgba(255,255,255,.022));border:1px solid var(--border-soft);border-radius:var(--r-lg);overflow:hidden;transition:.4s var(--ease);box-shadow:var(--shadow-md), var(--shadow-inner)}
+.preview-card:hover{border-color:rgba(95,240,208,.28);transform:translateY(-4px);box-shadow:0 30px 60px -30px rgba(0,0,0,.85), 0 0 40px -22px var(--mint-glow), inset 0 1px 0 rgba(255,255,255,.10)}
+
+.preview-photo{
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:
+    radial-gradient(560px 260px at 84% -10%, rgba(95,240,208,.30), transparent 58%),
+    radial-gradient(440px 280px at 0% 100%, rgba(255,217,120,.18), transparent 60%),
+    linear-gradient(145deg, rgba(13,106,114,.72), rgba(6,64,68,.78) 48%, rgba(10,16,19,.94));
+}
+/* Реальное фото — просто заменить src */
+.preview-photo > img.preview-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;z-index:1;
+  transition:transform .8s var(--ease), filter .4s var(--ease);
+  filter:saturate(.9) brightness(.85);
+}
+.preview-card:hover .preview-photo > img.preview-img{transform:scale(1.05);filter:saturate(1.05) brightness(.95)}
+
+/* SVG-заглушка */
+.preview-photo > svg.preview-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  display:block;z-index:1;
+  transition:transform .8s var(--ease);
+}
+.preview-card:hover .preview-photo > svg.preview-svg{transform:scale(1.03)}
+
+/* Паттерн-сетка поверх фото/заглушки */
+.preview-photo::before{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 26px);
+  mix-blend-mode:overlay;
+  opacity:.65;
+}
+/* Лёгкий radial блик */
+.preview-photo::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255,255,255,.10) 0%, transparent 55%),
+    linear-gradient(180deg, transparent 55%, rgba(8,14,18,.75) 100%);
+}
+
+.preview-photo .ptag{
+  position:absolute;top:12px;left:12px;z-index:3;
+  padding:6px 12px;
+  background:linear-gradient(135deg, rgba(95,240,208,.18), rgba(255,217,120,.12));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(95,240,208,.32);
+  border-radius:99px;
+  font-size:var(--fs-xxs);font-weight:800;color:#9bf3e4;
+  letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:0 0 22px -12px var(--mint-glow);
+}
+.preview-photo .pphoto-badge{
+  position:absolute;bottom:12px;right:12px;z-index:3;
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 10px;border-radius:99px;
+  background:rgba(8,12,15,.72);
+  border:1px solid var(--border-strong);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-size:var(--fs-xxs);font-weight:800;
+  color:rgba(255,255,255,.7);letter-spacing:.06em;text-transform:uppercase;
+}
+.preview-photo .pphoto-badge svg{width:11px;height:11px;opacity:.85}
+
+.preview-body{padding:clamp(16px, 1.8vw, 22px) clamp(14px, 1.6vw, 20px)}
+.preview-body h3{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:var(--fs-lg);line-height:1.3;letter-spacing:-.015em;color:var(--text);margin-bottom:6px}
+.preview-meta{font-size:var(--fs-xs);color:var(--text-3);margin-bottom:12px;letter-spacing:.02em}
+.preview-price{font-family:'Inter Tight',sans-serif;font-weight:800;font-size:var(--fs-lg);letter-spacing:-.025em;background:linear-gradient(90deg, #fff, #ffd978, #5ff0d0);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 18px rgba(95,240,208,.14))}
+
+/* CTA FORM */
+.cta-shell{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px, 2vw, 24px)}
+.cta-info{padding:clamp(30px, min(3.4vw, 4.5vh), 52px) clamp(24px, min(3vw, 4vh), 46px);background:linear-gradient(180deg, rgba(255,255,255,.078), rgba(255,255,255,.022));border:1px solid var(--border-soft);border-radius:var(--r-lg);display:flex;flex-direction:column;box-shadow:var(--shadow-md), var(--shadow-inner)}
+.cta-info h2{margin-bottom:18px}
+.cta-info > p{color:var(--text-2);font-size:var(--fs-md);line-height:1.7;margin-bottom:clamp(24px, 3.2vh, 36px);max-width:44ch}
+.cta-benefits{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+.benefit{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-sm);color:var(--text-2);line-height:1.55}
+.benefit svg{width:16px;height:16px;color:var(--mint);flex-shrink:0;margin-top:3px;filter:drop-shadow(0 0 10px var(--mint-glow))}
+
+.cta-form{padding:clamp(30px, min(3.4vw, 4.5vh), 52px) clamp(24px, min(3vw, 4vh), 46px);background:linear-gradient(180deg, rgba(255,255,255,.078), rgba(255,255,255,.022));border:1px solid var(--border-soft);border-radius:var(--r-lg);box-shadow:var(--shadow-md), var(--shadow-inner)}
+.cta-form h3{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:var(--fs-xl);letter-spacing:-.02em;color:var(--text);margin-bottom:22px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fg label{font-size:var(--fs-xxs);font-weight:750;color:var(--text-3);padding-left:2px;text-transform:uppercase;letter-spacing:.1em}
+.fg input,.fg textarea,.fg select{font-family:'Manrope',sans-serif;font-size:var(--fs-base);font-weight:500;color:var(--text);padding:clamp(11px, 1.5vh, 14px) clamp(12px, 1.2vw, 16px);background:rgba(255,255,255,.055);border:1px solid var(--border-mid);border-radius:14px;outline:none;transition:.25s var(--ease);resize:none;width:100%;appearance:none;-webkit-appearance:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.fg select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%235ff0d0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.fg select option{background:var(--bg-2)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.36)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{background:rgba(255,255,255,.075);border-color:rgba(95,240,208,.48);box-shadow:0 0 0 3px rgba(95,240,208,.12), 0 18px 42px -28px rgba(95,240,208,.4), inset 0 1px 0 rgba(255,255,255,.05)}
+.fg.has-error input,.fg.has-error select{border-color:var(--danger)}
+.fg .err{font-size:var(--fs-xxs);color:var(--danger);font-weight:650;display:none;padding-left:2px}
+.fg.has-error .err{display:block}
+.consent{display:flex;align-items:flex-start;gap:10px;padding:clamp(11px, 1.4vh, 14px) clamp(12px, 1.3vw, 16px);border:1px solid var(--border-soft);border-radius:14px;background:rgba(255,255,255,.035);margin:4px 0 18px;cursor:pointer;transition:.25s var(--ease);font-size:var(--fs-xxs);line-height:1.5;color:var(--text-3)}
+.consent:hover{background:rgba(255,255,255,.05)}
+.consent input{appearance:none;-webkit-appearance:none;width:16px;height:16px;flex-shrink:0;border:1px solid var(--line-2);background:transparent;border-radius:5px;cursor:pointer;position:relative;transition:.2s var(--ease);margin-top:1px}
+.consent input:checked{background:linear-gradient(135deg, #ffe0a2, #5ff0d0);border-color:transparent}
+.consent input:checked::after{content:"";position:absolute;left:4.5px;top:1.5px;width:5px;height:8px;border:solid #081013;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+.consent input.invalid{border-color:var(--danger)}
+.consent a{color:var(--text-2);text-decoration:underline;text-underline-offset:2px}
+.consent a:hover{color:var(--mint)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:800;font-size:var(--fs-sm);padding:clamp(12px, 1.5vh, 15px) clamp(18px, 1.8vw, 24px);border-radius:15px;transition:transform .2s var(--spring), box-shadow .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease), color .25s var(--ease);cursor:pointer;border:1px solid transparent;white-space:nowrap;letter-spacing:-.014em;position:relative;overflow:hidden}
+.btn svg{width:14px;height:14px;flex-shrink:0;transition:transform .35s var(--ease)}
+.btn:active{transform:translateY(1px) scale(.985)}
+.btn-primary{background:linear-gradient(110deg, #ffe2a2 0%, #cbc2ac 38%, #5ff0d0 100%);color:#081013;border:1px solid rgba(255,255,255,.36);box-shadow:0 18px 42px -18px rgba(255,217,120,.5), 0 18px 48px -22px rgba(95,240,208,.5), inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 0 rgba(0,0,0,.08)}
+.btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);transform:translateX(-125%);transition:transform .65s var(--ease);pointer-events:none}
+.btn-primary:active::after{transform:translateX(125%)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 22px 52px -18px rgba(255,217,120,.6), 0 24px 60px -22px rgba(95,240,208,.6), inset 0 1px 0 rgba(255,255,255,.65)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-primary:disabled{opacity:.7;cursor:wait;transform:none}
+.btn-ghost{background:rgba(255,255,255,.065);color:#fff;border:1px solid var(--border-mid);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.btn-ghost:hover{background:rgba(95,240,208,.12);border-color:rgba(95,240,208,.36);color:#bdf8ee;transform:translateY(-2px);box-shadow:0 0 26px -14px var(--mint-glow), inset 0 1px 0 rgba(255,255,255,.06)}
+.cta-form .btn{width:100%}
+.cta-form .spinner{width:14px;height:14px;border:1.5px solid rgba(0,0,0,.25);border-top-color:#081013;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SUCCESS */
+.form-success{display:none;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:14px 0 6px}
+.form-success.show{display:flex;animation:fadeUp .4s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hf-choose,.hf-done{display:none;flex-direction:column;align-items:center;text-align:center;gap:10px;width:100%}
+.hf-choose.show,.hf-done.show{display:flex;animation:fadeUp .4s var(--ease)}
+.form-success .ok{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:rgba(74,222,128,.14);border:1px solid rgba(74,222,128,.4);color:var(--ok);box-shadow:0 0 38px -14px rgba(74,222,128,.7), inset 0 1px 0 rgba(255,255,255,.14)}
+.form-success .ok svg{width:22px;height:22px}
+.form-success h4{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:var(--fs-xl);letter-spacing:-.02em;color:var(--text)}
+.form-success p{font-size:var(--fs-sm);color:var(--text-2);line-height:1.55;max-width:34ch}
+.hf-done button{background:transparent;border:none;color:var(--mint);font-weight:750;font-size:var(--fs-sm);cursor:pointer;text-decoration:underline;text-underline-offset:4px;margin-top:4px}
+.success-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px;width:100%}
+.success-actions a{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:1 1 auto;min-width:120px;padding:12px 16px;border-radius:13px;font-family:'Manrope',sans-serif;font-weight:800;font-size:var(--fs-sm);text-decoration:none;cursor:pointer;transition:.25s var(--ease);border:1px solid var(--border-mid);background:rgba(255,255,255,.06);color:var(--text);}
+.success-actions a:hover{background:rgba(255,255,255,.11);transform:translateY(-2px)}
+.success-actions a svg{width:15px;height:15px;flex-shrink:0}
+.success-actions a.call{background:linear-gradient(110deg, #ffe2a2 0%, #cbc2ac 38%, #5ff0d0 100%);color:#081013;border-color:rgba(255,255,255,.36);box-shadow:0 18px 42px -18px rgba(255,217,120,.5), 0 18px 48px -22px rgba(95,240,208,.5), inset 0 1px 0 rgba(255,255,255,.5)}
+.success-actions a.wa{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.42);color:#25d366}
+.success-actions a.wa:hover{background:rgba(37,211,102,.24)}
+.success-actions a.tg{background:rgba(41,161,225,.14);border-color:rgba(41,161,225,.42);color:#29a1e1}
+.success-actions a.tg:hover{background:rgba(41,161,225,.24)}
+.success-actions-hint{font-size:var(--fs-xxs);color:var(--text-3);margin-top:6px;text-align:center;width:100%}
+@media (max-width:480px){ .success-actions a{flex:1 1 100%} }
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:clamp(30px, 4vh, 46px) 0 clamp(24px, 3.5vh, 38px);position:relative}
+footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(600px, 100%);height:1px;background:linear-gradient(90deg, transparent, rgba(95,240,208,.4), rgba(255,217,120,.3), transparent)}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot-brand{display:flex;align-items:center;gap:10px}
+.foot-brand .logo{width:24px;height:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 12px var(--sand-glow))}
+.foot-brand .name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:var(--fs-sm);letter-spacing:.28em;padding-left:.28em;background:linear-gradient(100deg,#ffffff 0%,#e8dfc9 38%,#7ff0dc 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{font-size:var(--fs-xs);font-weight:650;color:var(--text-3);transition:.25s var(--ease)}
+.foot-links a:hover{color:var(--mint)}
+.foot-copy{font-size:var(--fs-xs);color:var(--text-3)}
+
+/* COOKIE */
+.cookie-banner{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(140%);z-index:400;width:min(720px, calc(100% - 28px));padding:clamp(16px, 2vh, 22px) clamp(18px, 2vw, 26px);background:rgba(16,21,26,.92);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border:1px solid var(--border-mid);border-radius:20px;box-shadow:0 30px 80px -20px rgba(0,0,0,.85), 0 0 40px -24px var(--mint-glow);transition:transform .5s var(--ease), opacity .35s var(--ease);opacity:0;pointer-events:none}
+.cookie-banner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+.cookie-inner{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cookie-text{flex:1;min-width:220px}
+.cookie-text strong{display:block;font-family:'Inter Tight',sans-serif;font-weight:700;font-size:var(--fs-base);color:var(--text);margin-bottom:3px;letter-spacing:-.01em}
+.cookie-text p{font-size:var(--fs-xs);line-height:1.5;color:var(--text-3)}
+.cookie-text a{color:var(--text-2);text-decoration:underline;text-underline-offset:2px}
+.cookie-text a:hover{color:var(--mint)}
+.cookie-actions{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0}
+.cookie-btn{font-family:'Manrope',sans-serif;font-weight:800;font-size:var(--fs-xs);padding:10px 16px;border-radius:11px;border:1px solid transparent;cursor:pointer;transition:.25s var(--ease);white-space:nowrap}
+.cookie-btn.accept{background:linear-gradient(110deg, #ffe2a2, #cbc2ac 38%, #5ff0d0);color:#081013;border-color:rgba(255,255,255,.36);box-shadow:0 12px 28px -12px rgba(95,240,208,.5), inset 0 1px 0 rgba(255,255,255,.55)}
+.cookie-btn.accept:hover{transform:translateY(-1px)}
+.cookie-btn.essential{background:rgba(255,255,255,.06);color:var(--text-2);border-color:var(--border-mid)}
+.cookie-btn.essential:hover{color:var(--text);background:rgba(255,255,255,.09)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}
+.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}
+
+/* АДАПТАЦИЯ */
+@media (min-width:1920px){ :root{--max:1500px} .nav-list a{font-size:14px} }
+@media (max-width:1680px){ :root{--max:1320px} }
+@media (max-width:1600px){ :root{--max:1280px} }
+@media (max-width:1440px){ :root{--max:1240px} }
+@media (max-width:1366px){ :root{--max:1200px} }
+@media (max-width:1280px){
+  :root{--max:1140px}
+  .nav-list a{font-size:13px;padding:8px 10px}
+  .brand-center{padding:0 clamp(14px, 2vw, 24px)}
+  .brand-center .name{font-size:14px;letter-spacing:.26em;padding-left:.26em}
+}
+@media (max-width:1180px){
+  .nav-list a{font-size:12.5px;padding:8px 9px}
+  .brand-center{padding:0 clamp(10px, 1.5vw, 16px)}
+}
+@media (max-width:1080px){
+  .nav-list.left,.nav-list.right{display:none}
+  .nav-inner{grid-template-columns:1fr auto 1fr}
+  .nav-inner .burger{display:block}
+  .brand-center{justify-self:center;padding:0}
+  .page-head{padding:clamp(110px, 13vh, 140px) 0 26px}
+  .tour-card{grid-template-columns:1fr}
+  .tour-card-right{min-height:clamp(280px, 38vh, 380px)}
+  .inc-grid{grid-template-columns:repeat(2,1fr)}
+  .preview-grid{grid-template-columns:repeat(2,1fr)}
+  .cta-shell{grid-template-columns:1fr}
+  section{padding:clamp(46px, 6.5vh, 80px) 0}
+}
+@media (max-width:812px){
+  :root{--gutter:18px}
+  .page-head{padding:clamp(100px, 12vh, 120px) 0 20px}
+  .page-head h1{font-size:clamp(26px, 7.5vw, 40px)}
+  .page-head > .wrap > p{font-size:14px}
+  .tour-card-left{padding:clamp(26px, 4vh, 38px) clamp(18px, 2.5vw, 24px)}
+  .tour-card-right{min-height:280px}
+  .tour-card-right .caption{bottom:20px;left:20px;right:20px}
+  .day-card{grid-template-columns:1fr;gap:16px;padding:22px 20px}
+  .day-badge{width:72px;height:72px;border-radius:18px}
+  .day-badge b{font-size:24px}
+  .inc-grid,.preview-grid{grid-template-columns:1fr}
+  .inc-card{padding:26px 22px;min-height:auto}
+  .inc-bg{width:150px;height:150px;right:-24px;bottom:-24px}
+  .inc-icon{width:56px;height:56px;border-radius:18px}
+  .inc-icon svg{width:26px;height:26px}
+  .cta-info,.cta-form{padding:28px 20px}
+  .foot-inner{flex-direction:column;align-items:flex-start;gap:18px}
+  .cookie-banner{bottom:12px;padding:16px 18px}
+  .cookie-actions{width:100%}
+  .cookie-btn{flex:1}
+  footer{padding:28px 0 24px}
+}
+@media (max-width:480px){
+  :root{--gutter:16px}
+  .hero-badges{gap:6px}
+}
+@media (max-width:380px){
+  :root{--gutter:14px}
+  .btn{padding:11px 16px;font-size:12.5px}
+  .brand-center .name{font-size:12px;letter-spacing:.22em;padding-left:.22em}
+  .brand-center .logo{width:26px}
+  .brand-center .sub{font-size:6.5px;letter-spacing:.24em}
+  .burger{width:36px;height:36px}
+  .burger span{left:10px;right:10px}
+  .burger span:nth-child(1){top:12px}
+  .burger span:nth-child(2){top:17px}
+  .burger span:nth-child(3){top:22px}
+  .burger.active span:nth-child(1),.burger.active span:nth-child(3){top:17px}
+}
+
+@media (max-height:800px) and (min-width:1081px){
+  section{padding:clamp(44px, 7vh, 70px) 0}
+  .page-head{padding:100px 0 30px}
+  .tour-card-left{padding:clamp(24px, 3.6vh, 40px) clamp(22px, 3vw, 40px)}
+  .tour-card-right{min-height:clamp(320px, 40vh, 440px)}
+  .inc-card{padding:26px 26px}
+  .day-card{padding:22px 24px}
+  .cta-info,.cta-form{padding:32px 28px}
+}
+@media (max-height:700px) and (min-width:1081px){
+  section{padding:36px 0}
+  .page-head{padding:90px 0 24px}
+  .section-head{margin-bottom:24px}
+  .tour-card-left{padding:20px 22px;gap:14px}
+  .tour-card-left h2{font-size:clamp(20px, 2.2vw, 28px)}
+  .tour-info-row{padding:8px 12px}
+  .tour-info-row .ti{width:34px;height:34px}
+  .day-card{padding:18px 20px;gap:16px}
+  .day-badge{width:64px;height:64px;border-radius:16px}
+  .day-badge b{font-size:22px}
+  .inc-card{padding:22px 22px;min-height:auto}
+  .inc-icon{width:52px;height:52px;border-radius:16px;margin-bottom:18px}
+  .inc-icon svg{width:24px;height:24px}
+  .inc-bg{width:140px;height:140px}
+  .cta-info,.cta-form{padding:24px 24px}
+  footer{padding:20px 0 18px}
+}
+@media (max-height:620px) and (min-width:768px){
+  .page-head{padding:80px 0 18px}
+  section{padding:32px 0}
+}
+
+@media (min-width: 1081px) and (max-width: 1999px) {
+  :root{--max: 1180px !important;--gutter: 32px !important;}
+  body{ font-size: 14px !important; }
+  .nav-wrap{ padding: 12px var(--gutter) !important; }
+  .nav-list a{ font-size: 12.5px !important; padding: 8px 11px !important; }
+  .brand-center .name{ font-size: 14px !important; letter-spacing:.26em !important; }
+  .brand-center .sub{ font-size: 7.5px !important; }
+  .brand-center .logo{ width: 24px !important; }
+  .page-head{ padding: 110px 0 26px !important; }
+  .crumb{ font-size: 11.5px !important; margin-bottom: 18px !important; }
+  .page-head h1{ font-size: clamp(28px, 3.4vw, 48px) !important; margin-bottom: 14px !important; }
+  .page-head > .wrap > p{ font-size: 14px !important; line-height: 1.65 !important; max-width: 58ch !important; }
+  .hero-badges{ margin-top: 22px !important; gap: 8px !important; }
+  .hero-badge{ font-size: 11px !important; padding: 6px 12px !important; }
+  .tour-hero{ padding: 0 0 40px !important; }
+  .tour-card-left{ padding: 40px 40px !important; gap: 22px !important; }
+  .tour-card-left h2{ font-size: clamp(22px, 2.4vw, 34px) !important; }
+  .tour-card-left > p{ font-size: 13.5px !important; line-height: 1.65 !important; }
+  .tour-info-row{ padding: 11px 14px !important; gap: 12px !important; }
+  .tour-info-row .ti{ width: 38px !important; height: 38px !important; }
+  .tour-info-row .ti svg{ width: 15px !important; height: 15px !important; }
+  .tour-info-row .tl{ font-size: 10px !important; }
+  .tour-info-row .tv{ font-size: 13.5px !important; }
+  .tour-card-right{ min-height: 380px !important; }
+  section{ padding: 60px 0 !important; }
+  .section-head{ margin-bottom: 30px !important; gap: 26px !important; }
+  .eyebrow{ font-size: 11px !important; padding: 5px 12px !important; margin-bottom: 14px !important; }
+  h2{ font-size: clamp(22px, 2.6vw, 36px) !important; }
+  .sec-sub{ font-size: 13.5px !important; line-height: 1.6 !important; }
+  .day-grid{ gap: 12px !important; }
+  .day-card{ padding: 24px 26px !important; gap: 24px !important; }
+  .day-badge{ width: 84px !important; height: 84px !important; border-radius: 22px !important; }
+  .day-badge b{ font-size: 26px !important; }
+  .day-badge span{ font-size: 9px !important; }
+  .day-content h3{ font-size: 16px !important; margin-bottom: 8px !important; }
+  .day-meta{ font-size: 11.5px !important; margin-bottom: 12px !important; gap: 14px !important; }
+  .day-content li{ font-size: 13px !important; line-height: 1.55 !important; padding-left: 22px !important; }
+  .day-content li::before{ width: 6px !important; height: 6px !important; top: 6px !important; }
+  .inc-grid{ gap: 14px !important; }
+  .inc-card{ padding: 28px 26px !important; min-height: 240px !important; }
+  .inc-icon{ width: 60px !important; height: 60px !important; border-radius: 18px !important; margin-bottom: 22px !important; }
+  .inc-icon svg{ width: 28px !important; height: 28px !important; }
+  .inc-bg{ width: 170px !important; height: 170px !important; }
+  .inc-card h3{ font-size: 16px !important; margin-bottom: 8px !important; }
+  .inc-card p{ font-size: 12.5px !important; line-height: 1.6 !important; }
+  .preview-grid{ gap: 16px !important; }
+  .preview-body{ padding: 16px 16px !important; }
+  .preview-body h3{ font-size: 15.5px !important; margin-bottom: 5px !important; }
+  .preview-meta{ font-size: 11.5px !important; margin-bottom: 10px !important; }
+  .preview-price{ font-size: 16px !important; }
+  .preview-photo .ptag{ font-size: 10px !important; padding: 4px 9px !important; top: 10px !important; left: 10px !important; }
+  .cta-info, .cta-form{ padding: 32px 30px !important; }
+  .cta-info h2{ font-size: clamp(20px, 2vw, 28px) !important; }
+  .cta-info > p{ font-size: 13px !important; line-height: 1.6 !important; margin-bottom: 22px !important; }
+  .benefit{ font-size: 12.5px !important; }
+  .benefit svg{ width: 15px !important; height: 15px !important; }
+  .cta-form h3{ font-size: 17px !important; margin-bottom: 16px !important; }
+  .fg label{ font-size: 10px !important; }
+  .fg input, .fg textarea, .fg select{ padding: 11px 13px !important; font-size: 13.5px !important; }
+  .consent{ padding: 11px 13px !important; font-size: 11px !important; }
+  .consent input{ width: 15px !important; height: 15px !important; }
+  .form-success h4{ font-size: 17px !important; }
+  footer{ padding: 30px 0 24px !important; }
+  .foot-links a{ font-size: 12px !important; }
+  .foot-copy{ font-size: 11.5px !important; }
+}
+
+@media (hover:none){
+  .tour-card:hover,.day-card:hover,.inc-card:hover,.preview-card:hover{transform:none}
+  .scene .arch-grid{animation:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+  .particles{display:none}
+  body::before{animation:none}
+}
+@supports (padding:env(safe-area-inset-top)){
+  .nav-wrap{padding-top:calc(clamp(14px, 1.6vw, 22px) + env(safe-area-inset-top))}
+  .nav-wrap.scrolled{padding-top:calc(clamp(8px, 1vw, 12px) + env(safe-area-inset-top))}
+  footer{padding-bottom:calc(clamp(24px, 3.5vh, 38px) + env(safe-area-inset-bottom))}
+  .cookie-banner{bottom:calc(18px + env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+
+<div class="scene" aria-hidden="true">
+  <div class="arch-grid"></div>
+  <div class="pulse p1"></div>
+  <div class="pulse p2"></div>
+  <div class="pulse p3"></div>
+  <div class="mountains" data-depth="0.06"><svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path class="range-1" fill="currentColor" d="M0 500 L0 320 L80 260 L180 300 L280 220 L380 260 L480 200 L580 240 L680 180 L780 220 L880 150 L980 200 L1080 140 L1180 190 L1280 130 L1380 180 L1440 150 L1440 500 Z"/></svg></div>
+  <div class="mountains" data-depth="0.1"><svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path class="range-2" fill="currentColor" d="M0 500 L0 380 L120 320 L240 370 L360 290 L480 340 L600 270 L720 320 L840 240 L960 300 L1080 230 L1200 290 L1320 210 L1440 260 L1440 500 Z"/></svg></div>
+  <div class="mountains" data-depth="0.16"><svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path class="range-3" fill="currentColor" d="M0 500 L0 440 L140 390 L280 430 L420 370 L560 410 L700 350 L840 400 L980 340 L1120 390 L1260 330 L1400 380 L1440 370 L1440 500 Z"/></svg></div>
+  <div class="particles" id="particles"></div>
+  <div class="noise"></div>
+</div>
+
+<header class="nav-wrap" id="nav">
+  <nav class="nav-inner">
+    <ul class="nav-list left">
+      <li><a href="index.html#top">Главная</a></li>
+      <li><a href="index.html#about">О бренде</a></li>
+      <li><a href="index.html#invest">Инвестиции</a></li>
+      <li><a href="index.html#partners">Партнёры</a></li>
+    </ul>
+    <a class="brand-center" href="index.html" aria-label="СИНДИКА">
+      <img class="logo" src="logo.png" alt="СИНДИКА" width="36" height="32" decoding="async">
+      <span class="name">СИНДИКА</span>
+      <span class="sub">Real Estate</span>
+    </a>
+    <ul class="nav-list right">
+      <li class="nav-item-dropdown">
+        <a href="objects.html" class="nav-link-dropdown">Каталог
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown-menu" role="menu">
+          <div class="dropdown-head">Категории объектов</div>
+          <a href="objects.html?cat=novostroyki" class="dropdown-item" role="menuitem">
+            <span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M9 21v-5h6v5"/><path d="M10 10h.01M14 10h.01M10 13h.01M14 13h.01"/></svg></span>
+            <span class="di-text"><b>Новостройки</b><small>Квартиры от застройщиков</small></span>
+            <svg class="di-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="objects.html?cat=commercial" class="dropdown-item" role="menuitem">
+            <span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg></span>
+            <span class="di-text"><b>Коммерческие помещения</b><small>Офисы, магазины, аренда</small></span>
+            <svg class="di-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="objects.html?cat=resort" class="dropdown-item" role="menuitem">
+            <span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l7-12 5 8 2-3 4 7z"/><circle cx="17" cy="6" r="2.5"/></svg></span>
+            <span class="di-text"><b>Курортная недвижимость</b><small>Приэльбрусье, апартаменты</small></span>
+            <svg class="di-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="objects.html?cat=invest" class="dropdown-item" role="menuitem">
+            <span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+            <span class="di-text"><b>Инвестиционные объекты</b><small>Лоты с высокой доходностью</small></span>
+            <svg class="di-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </li>
+      <li><a href="tour.html">Брокер тур</a></li>
+      <li><a href="index.html#nonres">Нерезиденты</a></li>
+      <li><a href="index.html#contact">Контакты</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-brand">
+    <img class="logo" src="logo.png" alt="СИНДИКА" width="36" height="32" decoding="async">
+    <span class="name">СИНДИКА</span>
+  </div>
+  <a href="index.html" data-menu>Главная</a>
+  <a href="index.html#about" data-menu>О бренде</a>
+  <a href="objects.html" data-menu>Каталог объектов</a>
+  <div class="mm-subgroup">
+    <a href="objects.html?cat=novostroyki" data-menu>Новостройки</a>
+    <a href="objects.html?cat=commercial" data-menu>Коммерческие</a>
+    <a href="objects.html?cat=resort" data-menu>Курортная</a>
+    <a href="objects.html?cat=invest" data-menu>Инвестиции</a>
+  </div>
+  <a href="index.html#pereus" data-menu>Переуступки</a>
+  <a href="invest.html" data-menu>Инвестиции КБР</a>
+  <a href="index.html#nonres" data-menu>Для нерезидентов</a>
+  <a href="tour.html" data-menu>Брокерский тур</a>
+  <a href="index.html#partners" data-menu>Партнёры</a>
+  <a href="index.html#contact" data-menu>Контакты</a>
+  <a class="m-cta" href="tel:+79391022727" data-menu>+7 939 102 27 27</a>
+</div>
+
+<main>
+
+  <section class="page-head">
+    <div class="wrap">
+      <div class="crumb">
+        <a href="index.html">Главная</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        <span>Брокерский тур</span>
+      </div>
+      <h1>Брокерский тур <em>по КБР</em></h1>
+      <p>Три дня в Кабардино-Балкарии: знакомство с рынком недвижимости, встречи с застройщиками, посещение объектов и отдых в горах. Формат для инвесторов, риелторов и тех, кто выбирает регион для жизни.</p>
+      <div class="hero-badges">
+        <span class="hero-badge"><span class="dot"></span>Ближайший тур: 14–16 ноября 2026</span>
+        <span class="hero-badge">3 дня · 12 объектов · 4 встречи</span>
+        <span class="hero-badge">Группа до 8 человек</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="tour-hero">
+    <div class="wrap">
+      <div class="tour-card reveal">
+        <div class="tour-card-left">
+          <h2>Что такое брокерский тур <em>СИНДИКА</em></h2>
+          <p>Это интенсивное погружение в рынок недвижимости Кабардино-Балкарии. Мы показываем не только объекты, но и город, инфраструктуру, застройщиков и перспективные локации. Вы уезжаете с готовой стратегией и пониманием, куда и как вкладывать.</p>
+          <div class="tour-info-list">
+            <div class="tour-info-row">
+              <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></span>
+              <span><span class="tl">Даты</span><span class="tv">14–16 ноября 2026</span></span>
+            </div>
+            <div class="tour-info-row">
+              <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg></span>
+              <span><span class="tl">Маршрут</span><span class="tv">Нальчик · Приэльбрусье · Чегем</span></span>
+            </div>
+            <div class="tour-info-row">
+              <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+              <span><span class="tl">Группа</span><span class="tv">До 8 участников</span></span>
+            </div>
+            <div class="tour-info-row">
+              <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7l7-4Z"/></svg></span>
+              <span><span class="tl">Стоимость</span><span class="tv">по запросу · всё включено</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="tour-card-right">
+          <img class="stage-photo" src="foto5.jfif" alt="Приэльбрусье">
+          <svg class="mark" viewBox="0 0 120 120" fill="currentColor" aria-hidden="true"><path d="M0 0 H120 V120 H0 V78 L88 78 L0 34 Z"/></svg>
+          <div class="caption">
+            <span>Приэльбрусье · день 2</span>
+            <h3>Смотровая над Баксанским ущельем — точка обзора объектов курортной зоны</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow reveal">Программа</span>
+          <h2 class="reveal d1">Три дня, которые изменят <em>ваш взгляд на регион</em></h2>
+        </div>
+        <p class="sec-sub reveal d2">Каждый день — новая локация, встречи с застройщиками, просмотры объектов и анализ рынка. Вечера свободны для отдыха и знакомства с местной кухней.</p>
+      </div>
+
+      <div class="day-grid">
+        <article class="day-card reveal">
+          <div class="day-badge"><b>01</b><span>День</span></div>
+          <div class="day-content">
+            <h3>Нальчик: рынок, инфраструктура, новые ЖК</h3>
+            <div class="day-meta">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>10:00 — 20:00</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>Нальчик</span>
+            </div>
+            <ul>
+              <li>Обзорная экскурсия по городу и ключевым районам</li>
+              <li>Посещение 3 строящихся ЖК с презентацией от застройщиков</li>
+              <li>Анализ рынка: цены, спрос, прогноз на 2027 год</li>
+              <li>Обед в национальном ресторане и ужин с командой СИНДИКА</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="day-card reveal d1">
+          <div class="day-badge"><b>02</b><span>День</span></div>
+          <div class="day-content">
+            <h3>Приэльбрусье: курортная недвижимость</h3>
+            <div class="day-meta">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>08:00 — 21:00</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>Приэльбрусье</span>
+            </div>
+            <ul>
+              <li>Выезд к подножию Эльбруса, посещение апарт-комплексов</li>
+              <li>Встреча с управляющими компаниями: доходность краткосрочной аренды</li>
+              <li>Обед на высоте 2300 м с панорамным видом</li>
+              <li>Свободное время: канатка, термальные источники, прогулка</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="day-card reveal d2">
+          <div class="day-badge"><b>03</b><span>День</span></div>
+          <div class="day-content">
+            <h3>Чегем и земельные участки</h3>
+            <div class="day-meta">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>09:00 — 18:00</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>Чегемское ущелье</span>
+            </div>
+            <ul>
+              <li>Поездка в Чегемские водопады и знакомство с локацией</li>
+              <li>Осмотр земельных участков под застройку и глэмпинги</li>
+              <li>Встреча с юристом: оформление, налоги, разрешения</li>
+              <li>Итоговая сессия: персональная стратегия инвестиций</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow reveal">Что включено</span>
+          <h2 class="reveal d1">Всё продумано <em>до мелочей</em></h2>
+        </div>
+        <p class="sec-sub reveal d2">Стоимость тура включает проживание, трансфер, питание и сопровождение. Вы просто приезжаете — остальное берём на себя.</p>
+      </div>
+
+      <div class="inc-grid">
+        <article class="inc-card reveal">
+          <span class="inc-bg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/></svg></span>
+          <div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/></svg></div>
+          <h3>Проживание</h3>
+          <p>Отель 4★ в центре Нальчика и гостевой дом в Приэльбрусье. Двухместные номера, возможно одноместное размещение.</p>
+        </article>
+        <article class="inc-card reveal d1">
+          <span class="inc-bg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg></span>
+          <div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg></div>
+          <h3>Трансфер</h3>
+          <p>Комфортабельный минивэн с водителем на все три дня. Забираем из аэропорта и привозим обратно.</p>
+        </article>
+        <article class="inc-card reveal d2">
+          <span class="inc-bg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16M4 11a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6ZM8 9V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/></svg></span>
+          <div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16M4 11a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6ZM8 9V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/></svg></div>
+          <h3>Питание</h3>
+          <p>Завтраки в отеле, деловые обеды и два ужина в национальной кухне. Учитываем предпочтения и ограничения.</p>
+        </article>
+        <article class="inc-card reveal">
+          <span class="inc-bg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+          <div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+          <h3>Сопровождение</h3>
+          <p>Персональный гид-эксперт по недвижимости, юрист и аналитик — на связи на всех этапах тура.</p>
+        </article>
+        <article class="inc-card reveal d1">
+          <span class="inc-bg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <h3>Материалы</h3>
+          <p>PDF-отчёт по рынку КБР, персональная подборка объектов и расчёт доходности — после тура.</p>
+        </article>
+        <article class="inc-card reveal d2">
+          <span class="inc-bg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></span>
+          <div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
+          <h3>Впечатления</h3>
+          <p>Канатная дорога, термальные источники, дегустация местной кухни — тур сочетает работу и отдых.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow reveal">Объекты тура</span>
+          <h2 class="reveal d1">Что вы <em>увидите</em></h2>
+        </div>
+        <p class="sec-sub reveal d2">Фрагмент программы — реальные объекты, которые входят в маршрут. Полный список присылаем вместе с подтверждением участия.</p>
+      </div>
+
+      <div class="preview-grid">
+        <article class="preview-card reveal">
+          <div class="preview-photo">
+            <span class="ptag">Нальчик</span>
+            <!-- ЗАГЛУШКА ФОТО — заменить на: <img class="preview-img" src="real-photo-1.jpg" alt="ЖК бизнес-класса"> -->
+            <img class="preview-img" src="your-photo.jpg" alt="ЖК бизнес-класса">
+            <span class="pphoto-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 15l-5-5-4 4-2-2-7 7"/></svg>
+              место под фото
+            </span>
+          </div>
+          <div class="preview-body">
+            <h3>ЖК бизнес-класса в центре города</h3>
+            <div class="preview-meta">3 комнаты · 96 м² · сдача 2027</div>
+            <div class="preview-price">от 14 500 000 ₽</div>
+          </div>
+        </article>
+        <article class="preview-card reveal d1">
+          <div class="preview-photo">
+            <span class="ptag">Приэльбрусье</span>
+            <!-- ЗАГЛУШКА ФОТО — заменить на: <img class="preview-img" src="real-photo-2.jpg" alt="Апарт-комплекс"> -->
+            <img class="preview-img" src="your-photo.jpg" alt="ЖК бизнес-класса">
+            <span class="pphoto-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 15l-5-5-4 4-2-2-7 7"/></svg>
+              место под фото
+            </span>
+          </div>
+          <div class="preview-body">
+            <h3>Апарт-комплекс у подножия Эльбруса</h3>
+            <div class="preview-meta">Студии и 2-комн. · 32–68 м²</div>
+            <div class="preview-price">от 6 800 000 ₽</div>
+          </div>
+        </article>
+        <article class="preview-card reveal d2">
+          <div class="preview-photo">
+            <span class="ptag">Чегем</span>
+            <!-- ЗАГЛУШКА ФОТО — заменить на: <img class="preview-img" src="real-photo-3.jpg" alt="Участки"> -->
+            <img class="preview-img" src="your-photo.jpg" alt="ЖК бизнес-класса">
+            <span class="pphoto-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 15l-5-5-4 4-2-2-7 7"/></svg>
+              место под фото
+            </span>
+          </div>
+          <div class="preview-body">
+            <h3>Участки под глэмпинг и застройку</h3>
+            <div class="preview-meta">от 10 до 30 соток · с коммуникациями</div>
+            <div class="preview-price">от 1 500 000 ₽</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="wrap">
+      <div class="cta-shell">
+        <div class="cta-info reveal">
+          <span class="eyebrow">Записаться</span>
+          <h2>Забронируйте <em>место в туре</em></h2>
+          <p>Оставьте заявку — вышлем подробную программу, стоимость и условия участия. Группа до 8 человек, места ограничены.</p>
+          <div class="cta-benefits">
+            <div class="benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l5 5 9-11"/></svg><span>Подробная программа в PDF</span></div>
+            <div class="benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l5 5 9-11"/></svg><span>Расчёт стоимости для одного и группы</span></div>
+            <div class="benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l5 5 9-11"/></svg><span>Гибкие даты под ваш график</span></div>
+            <div class="benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l5 5 9-11"/></svg><span>Индивидуальный формат для компаний</span></div>
+          </div>
+        </div>
+
+        <form class="cta-form reveal d1" id="tourForm" novalidate>
+          <h3>Заявка на тур</h3>
+          <div class="fg" id="tName">
+            <label for="trName">Имя</label>
+            <input id="trName" name="name" type="text" placeholder="Как к вам обращаться" required autocomplete="name">
+            <span class="err">Укажите имя</span>
+          </div>
+          <div class="fg" id="tPhone">
+            <label for="trPhone">Телефон</label>
+            <input id="trPhone" name="phone" type="tel" placeholder="+7 ___ ___ __ __" required autocomplete="tel" inputmode="tel">
+            <span class="err">Укажите телефон</span>
+          </div>
+          <div class="fg">
+            <label for="trGuests">Количество участников</label>
+            <select id="trGuests" name="guests">
+              <option value="1">1 человек</option>
+              <option value="2">2 человека</option>
+              <option value="3-4">3–4 человека</option>
+              <option value="5+">5 и более</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="trDate">Предпочтительные даты</label>
+            <select id="trDate" name="date">
+              <option>Ближайший тур: 14–16 ноября 2026</option>
+              <option>Декабрь 2026</option>
+              <option>Январь 2027</option>
+              <option>Хочу индивидуальные даты</option>
+            </select>
+          </div>
+          <label class="consent" for="trConsent">
+            <input id="trConsent" name="consent" type="checkbox" required>
+            <span>Согласен на обработку персональных данных согласно <a href="#privacy" target="_blank" rel="noopener">Политике конфиденциальности</a> и <a href="#cookies" target="_blank" rel="noopener">Политике cookie</a></span>
+          </label>
+          <button class="btn btn-primary" type="submit" id="trSubmit">
+            Забронировать место
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <div class="form-success" id="trSuccess">
+            <div class="hf-choose" id="trChoose">
+              <span class="ok" style="background:rgba(95,240,208,.14);border-color:rgba(95,240,208,.42);color:var(--mint)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2V4Z"/><path d="M8 9h8M8 12h5"/></svg>
+              </span>
+              <h4>Куда отправить заявку?</h4>
+              <p>Выберите удобный способ — откроется приложение с готовым текстом вашей заявки.</p>
+              <div class="success-actions">
+                <a class="call" href="tel:+79391022727" data-send="call">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.9 2.2Z"/></svg>
+                  Позвонить
+                </a>
+                <a class="wa" id="trWa" href="#" target="_blank" rel="noopener" data-send="wa">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.7.1-1.7-.9-2.9-1.6-4-3.7-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7 0 1.6 1.2 3.1 1.3 3.3.1.2 2.3 3.5 5.6 4.9.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.3zM12 21.5c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3.5.9.9-3.4-.2-.4c-.9-1.4-1.4-3.1-1.4-4.8 0-5.1 4.2-9.3 9.3-9.3s9.3 4.2 9.3 9.3-4.2 9.2-9.4 9.2z"/></svg>
+                  WhatsApp
+                </a>
+                <a class="tg" id="trTg" href="#" target="_blank" rel="noopener" data-send="tg">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-4.9L17.7 7c.4-.3-.1-.5-.6-.2L6.4 13.3l-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.5 1.1z"/></svg>
+                  Telegram
+                </a>
+              </div>
+              <p class="success-actions-hint">Текст заявки подставится автоматически</p>
+            </div>
+            <div class="hf-done" id="trDone">
+              <span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l5 5 9-11"/></svg></span>
+              <h4>Заявка отправлена!</h4>
+              <p>Вышлем программу тура и условия участия в течение 15 минут.</p>
+              <button type="button" id="trReset">Отправить ещё</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <a class="foot-brand" href="index.html">
+      <img class="logo" src="logo.png" alt="СИНДИКА" width="36" height="32" decoding="async">
+      <span class="name">СИНДИКА</span>
+    </a>
+    <div class="foot-links">
+      <a href="index.html#about">О бренде</a>
+      <a href="objects.html">Объекты</a>
+      <a href="cession.html">Переуступки</a>
+      <a href="invest.html">Инвестиции КБР</a>
+      <a href="index.html#nonres">Нерезиденты</a>
+      <a href="tour.html">Брокер тур</a>
+      <a href="index.html#partners">Партнёры</a>
+      <a href="index.html#contact">Контакты</a>
+    </div>
+    <span class="foot-copy">© 2026 СИНДИКА</span>
+  </div>
+</footer>
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite">
+  <div class="cookie-inner">
+    <div class="cookie-text">
+      <strong>Мы используем cookie</strong>
+      <p>Сайт использует файлы cookie для корректной работы. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="#cookies">Политикой cookie</a>.</p>
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn essential" type="button" data-cookie="essential">Только необходимые</button>
+      <button class="cookie-btn accept" type="button" data-cookie="all">Принять</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CONFIG = {
+  TELEGRAM_BOT_TOKEN: 'PASTE_YOUR_BOT_TOKEN_HERE',
+  TELEGRAM_CHAT_ID:   'PASTE_YOUR_CHAT_ID_HERE',
+  WHATSAPP_NUMBER:    '79391022727',
+  TELEGRAM_HANDLE:    '_real_estate',
+};
+
+(function(){
+  const c = document.getElementById('particles');
+  if (c){
+    const N = window.innerWidth < 768 ? 14 : 28;
+    for (let i=0;i<N;i++){
+      const s = document.createElement('span');
+      const size = Math.random()*2+1;
+      s.style.left = Math.random()*100+'%';
+      s.style.bottom = '-5vh';
+      s.style.width = size+'px';
+      s.style.height = size+'px';
+      s.style.animationDuration = (18+Math.random()*22)+'s';
+      s.style.animationDelay = (-Math.random()*30)+'s';
+      s.style.setProperty('--drift',(Math.random()*80-40)+'px');
+      s.style.opacity = (0.4+Math.random()*0.6);
+      c.appendChild(s);
+    }
+  }
+  const hasHover = window.matchMedia('(hover:hover)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (!hasHover || reduce) return;
+  const layers = document.querySelectorAll('.mountains');
+  const pulses = document.querySelectorAll('.scene .pulse');
+  let tx=0, ty=0, cx=0, cy=0;
+  window.addEventListener('pointermove', e => {
+    tx = (e.clientX / innerWidth - .5);
+    ty = (e.clientY / innerHeight - .5);
+  }, { passive:true });
+  (function loop(){
+    cx += (tx - cx) * .05;
+    cy += (ty - cy) * .05;
+    layers.forEach(l => {
+      const d = parseFloat(l.dataset.depth || .05);
+      const o = d * 100;
+      l.style.transform = `translate3d(${cx*o}px, ${cy*o*.5}px, 0)`;
+    });
+    pulses.forEach((p,i) => {
+      const s = 8 + i*4;
+      p.style.transform = `translate3d(${cx*s}px, ${cy*s}px, 0) scale(${1+Math.abs(cx)*.05})`;
+    });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold:.1, rootMargin:'0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+(function(){
+  const n = document.getElementById('nav');
+  let t = false;
+  window.addEventListener('scroll', () => {
+    if (!t){ requestAnimationFrame(() => { n.classList.toggle('scrolled', scrollY > 20); t = false; }); t = true; }
+  }, { passive:true });
+})();
+(function(){
+  const b = document.getElementById('burger');
+  const m = document.getElementById('mobileMenu');
+  function close(){ b.classList.remove('active'); m.classList.remove('open'); document.body.classList.remove('lock'); b.setAttribute('aria-expanded','false'); }
+  function open(){ b.classList.add('active'); m.classList.add('open'); document.body.classList.add('lock'); b.setAttribute('aria-expanded','true'); }
+  b.addEventListener('click', () => m.classList.contains('open') ? close() : open());
+  m.querySelectorAll('[data-menu]').forEach(a => a.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  window.addEventListener('resize', () => { if (innerWidth > 1080) close(); });
+})();
+
+(function(){
+  const KEY = 'cindiCookieConsent_v1';
+  const b = document.getElementById('cookieBanner');
+  let s = null;
+  try { s = localStorage.getItem(KEY); } catch(e){}
+  if (!s) setTimeout(() => b.classList.add('show'), 1200);
+  b.querySelectorAll('[data-cookie]').forEach(btn => btn.addEventListener('click', () => {
+    try { localStorage.setItem(KEY, btn.dataset.cookie); } catch(e){}
+    b.classList.remove('show');
+  }));
+})();
+
+function buildWaLink(text){
+  const n = CONFIG.WHATSAPP_NUMBER.replace(/\D/g, '');
+  return `https://wa.me/${n}?text=${encodeURIComponent(text)}`;
+}
+function buildTgLink(text){
+  const h = CONFIG.TELEGRAM_HANDLE || '_real_estate';
+  return `https://t.me/${h}?text=${encodeURIComponent(text)}`;
+}
+function formatPhone(value){
+  let d = String(value || '').replace(/\D/g, '');
+  if (d.startsWith('8')) d = '7' + d.slice(1);
+  if (!d.startsWith('7') && d.length) d = '7' + d;
+  d = d.slice(0, 11);
+  let out = '';
+  if (d.length) out = '+7';
+  if (d.length > 1) out += ' ' + d.slice(1, 4);
+  if (d.length > 4) out += ' ' + d.slice(4, 7);
+  if (d.length > 7) out += ' ' + d.slice(7, 9);
+  if (d.length > 9) out += ' ' + d.slice(9, 11);
+  return out;
+}
+function buildMessage(data, source){
+  return [
+    '🎒 Новая заявка — БРОКЕР ТУР',
+    source ? 'Источник: ' + source : '',
+    '',
+    '👤 Имя: ' + (data.name || '—'),
+    '📞 Телефон: ' + (data.phone || '—'),
+    data.guests ? '👥 Участников: ' + data.guests : '',
+    data.date ? '📅 Даты: ' + data.date : '',
+    '',
+    '🕒 ' + new Date().toLocaleString('ru-RU')
+  ].filter(Boolean).join('\n');
+}
+async function sendToTelegram(text){
+  const { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } = CONFIG;
+  if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN.includes('PASTE')) return false;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode:'HTML', disable_web_page_preview:true })
+    });
+    return res.ok;
+  } catch(e){ return false; }
+}
+
+(function(){
+  const form = document.getElementById('tourForm'); if (!form) return;
+  const submit = document.getElementById('trSubmit');
+  const success = document.getElementById('trSuccess');
+  const choose  = document.getElementById('trChoose');
+  const done    = document.getElementById('trDone');
+  const resetBtn = document.getElementById('trReset');
+  const orig = submit.innerHTML;
+  const fName = document.getElementById('tName');
+  const fPhone = document.getElementById('tPhone');
+  const nInput = document.getElementById('trName');
+  const pInput = document.getElementById('trPhone');
+  const consent = document.getElementById('trConsent');
+
+  [nInput, pInput].forEach(inp => inp.addEventListener('input', () => inp.closest('.fg').classList.remove('has-error')));
+  pInput.addEventListener('input', () => { pInput.value = formatPhone(pInput.value); });
+  consent.addEventListener('change', () => consent.classList.remove('invalid'));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let ok = true;
+    fName.classList.remove('has-error'); fPhone.classList.remove('has-error'); consent.classList.remove('invalid');
+    if (!nInput.value.trim()){ fName.classList.add('has-error'); ok = false; }
+    if (pInput.value.replace(/[^\d]/g,'').length < 11){ fPhone.classList.add('has-error'); ok = false; }
+    if (!consent.checked){ consent.classList.add('invalid'); ok = false; }
+    if (!ok) return;
+
+    const data = {
+      name: nInput.value.trim(),
+      phone: pInput.value.trim(),
+      guests: document.getElementById('trGuests').value,
+      date: document.getElementById('trDate').value,
+    };
+    const text = buildMessage(data, 'Страница «Брокер тур»');
+
+    document.getElementById('trWa').href = buildWaLink(text);
+    document.getElementById('trTg').href = buildTgLink(text);
+    success.dataset.text = text;
+
+    form.querySelectorAll('.fg').forEach(f => f.style.display = 'none');
+    consent.style.display = 'none';
+    submit.style.display = 'none';
+
+    success.classList.add('show');
+    choose.classList.add('show');
+    done.classList.remove('show');
+  });
+
+  choose.querySelectorAll('[data-send]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = success.dataset.text || '';
+      await sendToTelegram(text);
+      choose.classList.remove('show');
+      done.classList.add('show');
+    });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    form.reset();
+    form.querySelectorAll('.fg').forEach(f => f.style.display = '');
+    consent.style.display = '';
+    submit.style.display = '';
+    submit.disabled = false;
+    submit.innerHTML = orig;
+    success.classList.remove('show');
+    choose.classList.remove('show');
+    done.classList.remove('show');
+  });
+})();
+</script>
+</body>
+</html>
