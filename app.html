@@ -135,12 +135,8 @@ body::before{
     radial-gradient(560px 340px at 78% 22%, rgba(255,217,120,.08), transparent 64%),
     radial-gradient(640px 400px at 50% 88%, rgba(179,155,255,.07), transparent 66%);
   animation:aurora 28s ease-in-out infinite alternate;
-  animation-play-state:var(--aurora-play, running);
   opacity:.95;
   filter:blur(8px);
-  transform:translateZ(0);
-  will-change:transform;
-  contain:strict;
 }
 @keyframes aurora{
   0%{transform:translate3d(-2%,-1%,0) scale(1) rotate(0deg)}
@@ -157,8 +153,6 @@ body::after{
   opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode:overlay;
-  contain:strict;
-  transform:translateZ(0);
 }
 
 input,textarea,select{user-select:text;-webkit-user-select:text;font-family:inherit;color:inherit}
@@ -181,11 +175,10 @@ img{max-width:100%;display:block}
   height:calc(var(--header-h) + var(--safe-top));
   padding-top:var(--safe-top);
   background:linear-gradient(180deg, rgba(8,12,16,.92), rgba(8,12,16,.55));
-  backdrop-filter:blur(32px) saturate(180%);
-  -webkit-backdrop-filter:blur(32px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
   border-bottom:1px solid transparent;
   transition:border-color .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease);
-  transform:translateZ(0);
 }
 .app-header.scrolled{
   border-bottom-color:var(--border-soft);
@@ -228,7 +221,7 @@ img{max-width:100%;display:block}
   background:rgba(10,14,18,.62);
   border:1px solid var(--border-soft);
   color:var(--text);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,.07);
   transition:
     transform .2s var(--spring),
@@ -286,7 +279,6 @@ img{max-width:100%;display:block}
     transform .4s var(--ease),
     visibility .35s;
   overscroll-behavior:contain;
-  contain:layout style;
 }
 .screen.active{opacity:1;visibility:visible;transform:none}
 .screen-scroll{padding:14px 16px calc(28px + var(--safe-bottom));min-height:100%}
@@ -314,15 +306,14 @@ img{max-width:100%;display:block}
   height:calc(var(--tabbar-h) + var(--safe-bottom));
   padding-bottom:var(--safe-bottom);
   background:linear-gradient(180deg, rgba(8,12,16,.78), rgba(5,8,10,.96));
-  backdrop-filter:blur(32px) saturate(180%);
-  -webkit-backdrop-filter:blur(32px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
   border-top:1px solid var(--border-soft);
   box-shadow:
     0 -24px 60px -34px rgba(0,0,0,1),
     inset 0 1px 0 rgba(255,255,255,.05);
   display:grid;grid-template-columns:repeat(5,1fr);
   align-items:center;padding-left:4px;padding-right:4px;
-  transform:translateZ(0);
 }
 .tab{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
@@ -425,7 +416,6 @@ img{max-width:100%;display:block}
   background:linear-gradient(90deg, transparent, rgba(255,255,255,.10) 45%, rgba(255,255,255,.16) 50%, rgba(255,255,255,.10) 55%, transparent);
   transform:translateX(-135%) rotate(12deg);
   animation:heroShine 7.5s var(--ease) infinite;
-  animation-play-state:var(--aurora-play, running);
   pointer-events:none;z-index:2;
   mix-blend-mode:overlay;
 }
@@ -442,7 +432,7 @@ img{max-width:100%;display:block}
   border:1px solid rgba(95,240,208,.32);
   color:#d9fff7;font-size:11px;font-weight:800;
   letter-spacing:.02em;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.14),
     0 0 26px -12px var(--mint-glow);
@@ -520,7 +510,7 @@ img{max-width:100%;display:block}
   background:rgba(255,255,255,.065);
   color:#fff;
   border:1px solid var(--border-mid);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
 }
 .btn-ghost:active{
@@ -821,6 +811,8 @@ img{max-width:100%;display:block}
   box-shadow:var(--shadow-sm), var(--shadow-inner);
   opacity:0;transform:translateY(12px);
   transition:opacity .5s var(--ease), transform .5s var(--ease);
+  content-visibility:auto;
+  contain-intrinsic-size:auto 80px;
 }
 .why-item.revealed{opacity:1;transform:none}
 .why-icon{
@@ -850,6 +842,8 @@ img{max-width:100%;display:block}
   position:relative;overflow:hidden;
   opacity:0;transform:translateY(12px);
   transition:opacity .55s var(--ease), transform .55s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+  content-visibility:auto;
+  contain-intrinsic-size:auto 160px;
 }
 .seg-card.revealed{opacity:1;transform:none}
 .seg-card::before{
@@ -965,13 +959,11 @@ img{max-width:100%;display:block}
     border-color .3s var(--ease),
     box-shadow .35s var(--ease);
   animation:cardIn .5s var(--ease) both;
-  contain:layout style paint;
-  content-visibility:auto;
-  contain-intrinsic-size:auto 300px;
+  will-change:transform;
 }
 @keyframes cardIn{
-  from{opacity:0;transform:translateY(14px) scale(.985);filter:blur(4px)}
-  to{opacity:1;transform:none;filter:blur(0)}
+  from{opacity:0;transform:translateY(14px) scale(.985)}
+  to{opacity:1;transform:none}
 }
 .obj-card:active{
   transform:translateY(-3px) scale(.993);
@@ -988,12 +980,12 @@ img{max-width:100%;display:block}
 .obj-photo img{
   width:100%;height:100%;object-fit:cover;display:block;
   opacity:0;transform:scale(1.04);
-  transition:opacity .55s var(--ease), transform .8s var(--ease), filter .3s var(--ease);
+  transition:opacity .55s var(--ease), transform .8s var(--ease);
+  will-change:opacity, transform;
 }
-.obj-photo img.loaded{opacity:1;transform:scale(1)}
+.obj-photo img.loaded{opacity:1;transform:scale(1);will-change:auto}
 .obj-card:active .obj-photo img{
   transform:scale(1.05);
-  filter:saturate(1.10) contrast(1.04) brightness(1.03);
 }
 .obj-photo::after{
   content:"";position:absolute;inset:0;
@@ -1034,7 +1026,7 @@ img{max-width:100%;display:block}
   background:rgba(8,12,15,.66);
   border:1px solid rgba(255,255,255,.14);
   color:#fff;
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,.08);
   transition:
     transform .25s var(--spring),
@@ -1075,7 +1067,7 @@ img{max-width:100%;display:block}
   background:rgba(8,12,15,.66);
   border:1px solid rgba(255,255,255,.14);
   color:#fff;
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,.08);
   transition:
     transform .25s var(--spring),
@@ -1117,7 +1109,7 @@ img{max-width:100%;display:block}
   font-size:10px;font-weight:700;
   color:var(--text);
   display:inline-flex;align-items:center;gap:4px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   font-variant-numeric:tabular-nums;
 }
 .obj-photos-count svg{width:11px;height:11px;opacity:.85}
@@ -1129,7 +1121,7 @@ img{max-width:100%;display:block}
   color:#b9f4ea;
   font-size:11px;font-weight:750;line-height:1;
   display:inline-flex;align-items:center;gap:5px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
   max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
@@ -1226,7 +1218,7 @@ img{max-width:100%;display:block}
   border:1px solid rgba(255,255,255,.12);
   color:rgba(255,255,255,.72);
   font-size:10px;font-weight:800;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   font-variant-numeric:tabular-nums;
 }
 .obj-views svg{width:12px;height:12px}
@@ -1237,8 +1229,7 @@ img{max-width:100%;display:block}
 .obj-list .obj-card:nth-child(4){animation-delay:.19s}
 .obj-list .obj-card:nth-child(5){animation-delay:.24s}
 .obj-list .obj-card:nth-child(6){animation-delay:.29s}
-.obj-list .obj-card:nth-child(7){animation-delay:.34s}
-.obj-list .obj-card:nth-child(8){animation-delay:.39s}
+.obj-list .obj-card:nth-child(n+7){animation:none}
 
 /* SKELETONS */
 @keyframes shimmer{
@@ -1521,8 +1512,8 @@ img{max-width:100%;display:block}
   padding:calc(var(--safe-top) + 12px) 12px 12px;
   display:flex;align-items:center;gap:8px;
   background:linear-gradient(180deg, rgba(8,12,15,.92), rgba(8,12,15,.4));
-  backdrop-filter:blur(26px) saturate(170%);
-  -webkit-backdrop-filter:blur(26px) saturate(170%);
+  backdrop-filter:blur(12px) saturate(150%);
+  -webkit-backdrop-filter:blur(12px) saturate(150%);
   border-bottom:1px solid transparent;
   box-shadow:0 16px 40px -32px rgba(0,0,0,.98);
   pointer-events:none;
@@ -1583,7 +1574,7 @@ img{max-width:100%;display:block}
   position:absolute;top:calc(var(--safe-top) + 64px);right:16px;z-index:4;
   padding:5px 11px;border-radius:99px;
   background:rgba(8,12,15,.78);
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(8px);
   border:1px solid rgba(255,255,255,.14);
   font-size:11px;font-weight:750;color:var(--text);
   font-variant-numeric:tabular-nums;
@@ -1728,7 +1719,7 @@ img{max-width:100%;display:block}
   position:fixed;left:0;right:0;bottom:0;
   padding:12px 16px calc(12px + var(--safe-bottom));
   background:linear-gradient(180deg, transparent, rgba(5,7,9,.94) 42%, #050709 100%);
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:flex;gap:8px;z-index:5;
   transform:translateY(100%);
   transition:transform .45s var(--ease-out);
@@ -1994,8 +1985,8 @@ img{max-width:100%;display:block}
   padding:13px 20px;border-radius:16px;
   background:rgba(8,12,15,.9);
   border:1px solid rgba(95,240,208,.26);
-  backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  backdrop-filter:blur(8px) saturate(150%);
+  -webkit-backdrop-filter:blur(8px) saturate(150%);
   box-shadow:
     0 24px 56px -26px rgba(0,0,0,1),
     0 0 32px -18px var(--mint-glow);
@@ -2020,7 +2011,7 @@ img{max-width:100%;display:block}
   bottom:calc(var(--tabbar-h) + var(--safe-bottom) + 16px);
   width:46px;height:46px;border-radius:14px;
   background:rgba(8,12,15,.9);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   border:1px solid var(--border-mid);
   color:var(--mint);
   display:grid;place-items:center;z-index:130;
@@ -2051,8 +2042,8 @@ body.has-compare .scroll-top{bottom:calc(var(--tabbar-h) + var(--safe-bottom) + 
   z-index:150;
   padding:8px 8px 8px 12px;border-radius:20px;
   background:rgba(8,12,15,.94);
-  backdrop-filter:blur(28px) saturate(180%);
-  -webkit-backdrop-filter:blur(28px) saturate(180%);
+  backdrop-filter:blur(12px) saturate(160%);
+  -webkit-backdrop-filter:blur(12px) saturate(160%);
   border:1px solid var(--border-mid);
   box-shadow:
     0 24px 50px -16px rgba(0,0,0,.9),
@@ -2905,6 +2896,10 @@ body.quiz-open .quiz-fab{display:none}
   .quick-grid{gap:12px}
   .obj-list{gap:16px}
 }
+body.is-scrolling::before,
+body.is-scrolling .hero-card::after{
+  animation-play-state:paused!important;
+}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   body::before{animation:none}
@@ -3493,12 +3488,7 @@ function esc(s){
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 function fmtPrice(n){ if (!n) return '—'; return Number(n).toLocaleString('ru-RU') + ' ₽'; }
-function getPhotos(o){
-  if (o._photosCache) return o._photosCache;
-  const list = (o.photos||'').split(/\r?\n|;/).map(s=>s.trim()).filter(Boolean);
-  o._photosCache = list;
-  return list;
-}
+function getPhotos(o){ return (o.photos||'').split(/\r?\n|;/).map(s=>s.trim()).filter(Boolean); }
 function getFirstPhoto(o){ return getPhotos(o)[0] || ''; }
 function getPhotoCount(o){ return getPhotos(o).length; }
 function fmtPricePerM2(o){
@@ -3525,23 +3515,6 @@ function isNewObject(o){
   return (Date.now() - d.getTime()) < 3 * 24 * 60 * 60 * 1000;
 }
 function getViews(o){ return state.views[String(o.id)] || 0; }
-
-/* Card HTML cache — avoids rebuilding identical cards on every filter/sort */
-const _cardCache = new Map();
-function invalidateCardCache(id){
-  if (id == null){ _cardCache.clear(); return; }
-  const prefix = String(id) + '|';
-  for (const k of _cardCache.keys()){
-    if (k.startsWith(prefix)) _cardCache.delete(k);
-  }
-}
-function cardCacheKey(o){
-  const id = String(o.id);
-  const fav = state.favorites.has(id) ? '1' : '0';
-  const cmp = state.compare.indexOf(id);
-  const views = state.views[id] || 0;
-  return id + '|' + fav + '|' + cmp + '|' + views;
-}
 
 function isCessionObject(o){
   if (!o) return false;
@@ -3868,7 +3841,6 @@ function toggleFav(id, btn){
     toast('Добавлено в избранное');
   }
   LS.set('sindika_favs', Array.from(state.favorites));
-  invalidateCardCache(id);
   updateFavBadges();
   if (currentScreen === 'favorites') renderFavorites();
   if (currentDetail && String(currentDetail.id) === id) syncDetailFavBtn();
@@ -3954,10 +3926,6 @@ function compareBtnHTML(o){
 }
 
 function objCardHTML(o){
-  const key = cardCacheKey(o);
-  const cached = _cardCache.get(key);
-  if (cached) return cached;
-
   const photo = getFirstPhoto(o);
   const count = getPhotoCount(o);
   const photoHTML = photo
@@ -3970,7 +3938,7 @@ function objCardHTML(o){
   const isNew = isNewObject(o);
   const views = getViews(o);
   const metaHTML = (isNew || views) ? `<div class="obj-meta">${isNew ? '<span class="badge-new">Новинка</span>' : ''}${views ? `<span class="obj-views">${EYE_ICON}${views}</span>` : ''}</div>` : '';
-  const html = `
+  return `
     <article class="obj-card" data-id="${esc(o.id)}" role="button" tabindex="0">
       <div class="obj-photo">
         ${photoHTML}
@@ -3999,25 +3967,21 @@ function objCardHTML(o){
       </div>
     </article>
   `;
-  if (_cardCache.size > 400) _cardCache.clear();
-  _cardCache.set(key, html);
-  return html;
 }
-
 
 function matches(o){
   const f = state.filters;
   if (state.q){
     const q = state.q.toLowerCase();
-    if (!o._hay) o._hay = ((o.title||'') + ' ' + (o.district||'') + ' ' + (o.address||'') + ' ' + (o.type||'')).toLowerCase();
-    if (!o._hay.includes(q)) return false;
+    const hay = ((o.title||'') + ' ' + (o.district||'') + ' ' + (o.address||'') + ' ' + (o.type||'')).toLowerCase();
+    if (!hay.includes(q)) return false;
   }
   if (f.type && o.type !== f.type) return false;
   if (f.deal && o.deal !== f.deal) return false;
   if (f.district && o.district !== f.district) return false;
   if (f.rooms){
     if (f.rooms === '4' && o.rooms < 4) return false;
-    if (f.rooms !== '4' && o.rooms !== parseInt(f.rooms, 10)) return false;
+    if (f.rooms !== '4' && o.rooms !== parseInt(f.rooms)) return false;
   }
   if (o.price < f.priceMin || o.price > f.priceMax) return false;
   return true;
@@ -4028,14 +3992,32 @@ function sorted(list){
     case 'price-asc': arr.sort((a,b)=>a.price-b.price); break;
     case 'price-desc': arr.sort((a,b)=>b.price-a.price); break;
     case 'area-desc': arr.sort((a,b)=>b.area-a.area); break;
-    default:
-      arr.sort((a,b)=>{
-        if (a._ts == null) a._ts = a.createdAt ? new Date(a.createdAt).getTime() || 0 : 0;
-        if (b._ts == null) b._ts = b.createdAt ? new Date(b.createdAt).getTime() || 0 : 0;
-        return b._ts - a._ts;
-      });
+    default: arr.sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0));
   }
   return arr;
+}
+
+function setGridHTML(el, html){
+  /* Chunked paint: assign in one go but yield to browser via rAF for long lists */
+  if (!el) return;
+  if (html.length < 12000){
+    el.innerHTML = html;
+    return;
+  }
+  el.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.innerHTML = html;
+  const kids = Array.from(wrap.children);
+  let i = 0;
+  const CHUNK = 6;
+  function pump(){
+    const end = Math.min(i + CHUNK, kids.length);
+    const frag = document.createDocumentFragment();
+    for (; i < end; i++) frag.appendChild(kids[i]);
+    el.appendChild(frag);
+    if (i < kids.length) requestAnimationFrame(pump);
+  }
+  requestAnimationFrame(pump);
 }
 
 function renderCatalog(){
@@ -4072,16 +4054,16 @@ function renderCatalog(){
       (groups[d] = groups[d] || []).push(o);
     });
     const sortedGroups = Object.entries(groups).sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0], 'ru'));
-    grid.innerHTML = sortedGroups.map(([d, items]) => `
+    setGridHTML(grid, sortedGroups.map(([d, items]) => `
       <div class="group-section">
         <div class="group-title"><h4>${esc(d)}</h4><span class="gcount">${items.length}</span></div>
         <div class="obj-list">${items.map(objCardHTML).join('')}</div>
       </div>
-    `).join('');
+    `).join(''));
     return;
   }
 
-  grid.innerHTML = list.map(objCardHTML).join('');
+  setGridHTML(grid, list.map(objCardHTML).join(''));
 }
 function renderHome(){
   const featured = sorted(ALL_OBJECTS).slice(0, 4);
@@ -4157,7 +4139,6 @@ async function fetchAndUpdate(){
   }
 }
 function applyObjects(raw){
-  invalidateCardCache();
   ALL_OBJECTS = raw.map(o => ({
     ...o,
     price: Number(o.price) || 0,
@@ -4245,7 +4226,6 @@ function openDetail(id){
   const vid = String(o.id);
   state.views[vid] = (state.views[vid] || 0) + 1;
   LS.set('sindika_views', state.views);
-  invalidateCardCache(vid);
 
   renderDetailGallery();
   syncDetailFavBtn();
@@ -4352,7 +4332,10 @@ function syncCompareBtn(btn){
   if (on) btn.dataset.pos = String(idx + 1);
   else delete btn.dataset.pos;
 }
-function syncAllCompareButtons(){ document.querySelectorAll('.card-compare').forEach(syncCompareBtn); }
+function syncAllCompareButtons(){
+  const nodes = document.querySelectorAll('.card-compare');
+  for (let i = 0; i < nodes.length; i++) syncCompareBtn(nodes[i]);
+}
 function toggleCompare(id){
   id = String(id);
   const idx = state.compare.indexOf(id);
@@ -4367,7 +4350,6 @@ function toggleCompare(id){
     haptic(15);
   }
   LS.set('sindika_compare', state.compare);
-  invalidateCardCache(id);
   updateCompareBar();
   syncAllCompareButtons();
   if (currentDetail && String(currentDetail.id) === id) syncDetailCompareBtn();
@@ -5190,7 +5172,7 @@ function boot(){
     syncSearchClear();
     renderCatalog();
     renderRecentBlock();
-  }, 180));
+  }, 280));
   searchInput.addEventListener('focus', () => renderRecentBlock(true));
   searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter'){ e.preventDefault(); searchInput.blur(); saveRecentSearch(state.q); }
@@ -5221,7 +5203,6 @@ function boot(){
   $('#clearFavs').addEventListener('click', () => {
     state.favorites.clear();
     LS.set('sindika_favs', []);
-    invalidateCardCache();
     updateFavBadges();
     renderFavorites();
     toast('Избранное очищено');
@@ -5366,7 +5347,6 @@ function boot(){
   $('#compareClearBar').addEventListener('click', () => {
     state.compare = [];
     LS.set('sindika_compare', []);
-    invalidateCardCache();
     updateCompareBar();
     syncAllCompareButtons();
     haptic(12);
@@ -5377,7 +5357,6 @@ function boot(){
   $('#clearCompareAll').addEventListener('click', () => {
     state.compare = [];
     LS.set('sindika_compare', []);
-    invalidateCardCache();
     updateCompareBar();
     syncAllCompareButtons();
     closeCompare();
@@ -5468,14 +5447,21 @@ function boot(){
     $$('#faqList .faq-item.open .faq-a').forEach(el => { el.style.maxHeight = el.scrollHeight + 'px'; });
   }, 150));
 
+  /* Pause aurora while user is scrolling any screen */
+  (function(){
+    let scrollTimer = null;
+    const onScroll = () => {
+      document.body.classList.add('is-scrolling');
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => document.body.classList.remove('is-scrolling'), 150);
+    };
+    document.querySelectorAll('.screen').forEach(s => {
+      s.addEventListener('scroll', onScroll, { passive: true });
+    });
+  })();
+
   window.addEventListener('offline', () => toast('Нет соединения'));
   window.addEventListener('online', () => { toast('Соединение восстановлено'); loadAll(true); });
-
-  /* Pause continuous GPU animations when tab is hidden */
-  document.addEventListener('visibilitychange', () => {
-    const paused = document.hidden ? 'paused' : 'running';
-    document.documentElement.style.setProperty('--aurora-play', paused);
-  });
 
   updateQuizFabVisibility();
   updateScrollTopVisibility();
