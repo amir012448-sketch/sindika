@@ -135,8 +135,12 @@ body::before{
     radial-gradient(560px 340px at 78% 22%, rgba(255,217,120,.08), transparent 64%),
     radial-gradient(640px 400px at 50% 88%, rgba(179,155,255,.07), transparent 66%);
   animation:aurora 28s ease-in-out infinite alternate;
+  animation-play-state:var(--aurora-play, running);
   opacity:.95;
   filter:blur(8px);
+  transform:translateZ(0);
+  will-change:transform;
+  contain:strict;
 }
 @keyframes aurora{
   0%{transform:translate3d(-2%,-1%,0) scale(1) rotate(0deg)}
@@ -153,6 +157,8 @@ body::after{
   opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode:overlay;
+  contain:strict;
+  transform:translateZ(0);
 }
 
 input,textarea,select{user-select:text;-webkit-user-select:text;font-family:inherit;color:inherit}
@@ -179,6 +185,7 @@ img{max-width:100%;display:block}
   -webkit-backdrop-filter:blur(32px) saturate(180%);
   border-bottom:1px solid transparent;
   transition:border-color .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease);
+  transform:translateZ(0);
 }
 .app-header.scrolled{
   border-bottom-color:var(--border-soft);
@@ -279,6 +286,7 @@ img{max-width:100%;display:block}
     transform .4s var(--ease),
     visibility .35s;
   overscroll-behavior:contain;
+  contain:layout style;
 }
 .screen.active{opacity:1;visibility:visible;transform:none}
 .screen-scroll{padding:14px 16px calc(28px + var(--safe-bottom));min-height:100%}
@@ -314,6 +322,7 @@ img{max-width:100%;display:block}
     inset 0 1px 0 rgba(255,255,255,.05);
   display:grid;grid-template-columns:repeat(5,1fr);
   align-items:center;padding-left:4px;padding-right:4px;
+  transform:translateZ(0);
 }
 .tab{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
@@ -416,6 +425,7 @@ img{max-width:100%;display:block}
   background:linear-gradient(90deg, transparent, rgba(255,255,255,.10) 45%, rgba(255,255,255,.16) 50%, rgba(255,255,255,.10) 55%, transparent);
   transform:translateX(-135%) rotate(12deg);
   animation:heroShine 7.5s var(--ease) infinite;
+  animation-play-state:var(--aurora-play, running);
   pointer-events:none;z-index:2;
   mix-blend-mode:overlay;
 }
@@ -955,7 +965,9 @@ img{max-width:100%;display:block}
     border-color .3s var(--ease),
     box-shadow .35s var(--ease);
   animation:cardIn .5s var(--ease) both;
-  will-change:transform;
+  contain:layout style paint;
+  content-visibility:auto;
+  contain-intrinsic-size:auto 300px;
 }
 @keyframes cardIn{
   from{opacity:0;transform:translateY(14px) scale(.985);filter:blur(4px)}
@@ -3481,7 +3493,12 @@ function esc(s){
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 function fmtPrice(n){ if (!n) return '—'; return Number(n).toLocaleString('ru-RU') + ' ₽'; }
-function getPhotos(o){ return (o.photos||'').split(/\r?\n|;/).map(s=>s.trim()).filter(Boolean); }
+function getPhotos(o){
+  if (o._photosCache) return o._photosCache;
+  const list = (o.photos||'').split(/\r?\n|;/).map(s=>s.trim()).filter(Boolean);
+  o._photosCache = list;
+  return list;
+}
 function getFirstPhoto(o){ return getPhotos(o)[0] || ''; }
 function getPhotoCount(o){ return getPhotos(o).length; }
 function fmtPricePerM2(o){
@@ -3508,6 +3525,23 @@ function isNewObject(o){
   return (Date.now() - d.getTime()) < 3 * 24 * 60 * 60 * 1000;
 }
 function getViews(o){ return state.views[String(o.id)] || 0; }
+
+/* Card HTML cache — avoids rebuilding identical cards on every filter/sort */
+const _cardCache = new Map();
+function invalidateCardCache(id){
+  if (id == null){ _cardCache.clear(); return; }
+  const prefix = String(id) + '|';
+  for (const k of _cardCache.keys()){
+    if (k.startsWith(prefix)) _cardCache.delete(k);
+  }
+}
+function cardCacheKey(o){
+  const id = String(o.id);
+  const fav = state.favorites.has(id) ? '1' : '0';
+  const cmp = state.compare.indexOf(id);
+  const views = state.views[id] || 0;
+  return id + '|' + fav + '|' + cmp + '|' + views;
+}
 
 function isCessionObject(o){
   if (!o) return false;
@@ -3834,6 +3868,7 @@ function toggleFav(id, btn){
     toast('Добавлено в избранное');
   }
   LS.set('sindika_favs', Array.from(state.favorites));
+  invalidateCardCache(id);
   updateFavBadges();
   if (currentScreen === 'favorites') renderFavorites();
   if (currentDetail && String(currentDetail.id) === id) syncDetailFavBtn();
@@ -3919,6 +3954,10 @@ function compareBtnHTML(o){
 }
 
 function objCardHTML(o){
+  const key = cardCacheKey(o);
+  const cached = _cardCache.get(key);
+  if (cached) return cached;
+
   const photo = getFirstPhoto(o);
   const count = getPhotoCount(o);
   const photoHTML = photo
@@ -3931,7 +3970,7 @@ function objCardHTML(o){
   const isNew = isNewObject(o);
   const views = getViews(o);
   const metaHTML = (isNew || views) ? `<div class="obj-meta">${isNew ? '<span class="badge-new">Новинка</span>' : ''}${views ? `<span class="obj-views">${EYE_ICON}${views}</span>` : ''}</div>` : '';
-  return `
+  const html = `
     <article class="obj-card" data-id="${esc(o.id)}" role="button" tabindex="0">
       <div class="obj-photo">
         ${photoHTML}
@@ -3960,21 +3999,25 @@ function objCardHTML(o){
       </div>
     </article>
   `;
+  if (_cardCache.size > 400) _cardCache.clear();
+  _cardCache.set(key, html);
+  return html;
 }
+
 
 function matches(o){
   const f = state.filters;
   if (state.q){
     const q = state.q.toLowerCase();
-    const hay = ((o.title||'') + ' ' + (o.district||'') + ' ' + (o.address||'') + ' ' + (o.type||'')).toLowerCase();
-    if (!hay.includes(q)) return false;
+    if (!o._hay) o._hay = ((o.title||'') + ' ' + (o.district||'') + ' ' + (o.address||'') + ' ' + (o.type||'')).toLowerCase();
+    if (!o._hay.includes(q)) return false;
   }
   if (f.type && o.type !== f.type) return false;
   if (f.deal && o.deal !== f.deal) return false;
   if (f.district && o.district !== f.district) return false;
   if (f.rooms){
     if (f.rooms === '4' && o.rooms < 4) return false;
-    if (f.rooms !== '4' && o.rooms !== parseInt(f.rooms)) return false;
+    if (f.rooms !== '4' && o.rooms !== parseInt(f.rooms, 10)) return false;
   }
   if (o.price < f.priceMin || o.price > f.priceMax) return false;
   return true;
@@ -3985,7 +4028,12 @@ function sorted(list){
     case 'price-asc': arr.sort((a,b)=>a.price-b.price); break;
     case 'price-desc': arr.sort((a,b)=>b.price-a.price); break;
     case 'area-desc': arr.sort((a,b)=>b.area-a.area); break;
-    default: arr.sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0));
+    default:
+      arr.sort((a,b)=>{
+        if (a._ts == null) a._ts = a.createdAt ? new Date(a.createdAt).getTime() || 0 : 0;
+        if (b._ts == null) b._ts = b.createdAt ? new Date(b.createdAt).getTime() || 0 : 0;
+        return b._ts - a._ts;
+      });
   }
   return arr;
 }
@@ -4109,6 +4157,7 @@ async function fetchAndUpdate(){
   }
 }
 function applyObjects(raw){
+  invalidateCardCache();
   ALL_OBJECTS = raw.map(o => ({
     ...o,
     price: Number(o.price) || 0,
@@ -4196,6 +4245,7 @@ function openDetail(id){
   const vid = String(o.id);
   state.views[vid] = (state.views[vid] || 0) + 1;
   LS.set('sindika_views', state.views);
+  invalidateCardCache(vid);
 
   renderDetailGallery();
   syncDetailFavBtn();
@@ -4317,6 +4367,7 @@ function toggleCompare(id){
     haptic(15);
   }
   LS.set('sindika_compare', state.compare);
+  invalidateCardCache(id);
   updateCompareBar();
   syncAllCompareButtons();
   if (currentDetail && String(currentDetail.id) === id) syncDetailCompareBtn();
@@ -5170,6 +5221,7 @@ function boot(){
   $('#clearFavs').addEventListener('click', () => {
     state.favorites.clear();
     LS.set('sindika_favs', []);
+    invalidateCardCache();
     updateFavBadges();
     renderFavorites();
     toast('Избранное очищено');
@@ -5314,6 +5366,7 @@ function boot(){
   $('#compareClearBar').addEventListener('click', () => {
     state.compare = [];
     LS.set('sindika_compare', []);
+    invalidateCardCache();
     updateCompareBar();
     syncAllCompareButtons();
     haptic(12);
@@ -5324,6 +5377,7 @@ function boot(){
   $('#clearCompareAll').addEventListener('click', () => {
     state.compare = [];
     LS.set('sindika_compare', []);
+    invalidateCardCache();
     updateCompareBar();
     syncAllCompareButtons();
     closeCompare();
@@ -5416,6 +5470,12 @@ function boot(){
 
   window.addEventListener('offline', () => toast('Нет соединения'));
   window.addEventListener('online', () => { toast('Соединение восстановлено'); loadAll(true); });
+
+  /* Pause continuous GPU animations when tab is hidden */
+  document.addEventListener('visibilitychange', () => {
+    const paused = document.hidden ? 'paused' : 'running';
+    document.documentElement.style.setProperty('--aurora-play', paused);
+  });
 
   updateQuizFabVisibility();
   updateScrollTopVisibility();
