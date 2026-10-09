@@ -992,6 +992,131 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbyN-SkX6dcHesTbmQUnu57YHTBtJASnaV6PcJBwX3N47C0UIPNI6GN0sNYxlPZRLLvnbQ/exec';
+
+/* === СИНДИКА: поля из админки (обогащение объектов) === */
+const META_PREFIX = '__meta:';
+function parseFeatures(str){
+  const lines = String(str || '').split(/\r?\n/);
+  let meta = {}; const rest = [];
+  for (const line of lines){
+    const t = line.trim();
+    if (t.startsWith(META_PREFIX)){
+      try { meta = JSON.parse(t.slice(META_PREFIX.length)) || {}; } catch(e){}
+    } else if (t) rest.push(t);
+  }
+  return { meta, features: rest };
+}
+function enrichObject(o){
+  const { meta, features } = parseFeatures(o.features || '');
+  return {
+    ...o,
+    ...meta,
+    features: features.join('\n'),
+    price: Number(o.price) || 0,
+    area: Number(o.area) || 0,
+    rooms: Number(o.rooms) || 0,
+    floor: Number(o.floor) || 0,
+    floors: Number(o.floors) || 0,
+    kitchenArea: o.kitchenArea !== '' && o.kitchenArea != null ? Number(o.kitchenArea) : (meta.kitchenArea != null ? Number(meta.kitchenArea) : ''),
+    bathrooms: o.bathrooms !== '' && o.bathrooms != null ? Number(o.bathrooms) : '',
+    yearBuilt: o.yearBuilt !== '' && o.yearBuilt != null ? Number(o.yearBuilt) : '',
+    landArea: meta.landArea != null ? Number(meta.landArea) : (o.landArea != null ? Number(o.landArea) : ''),
+    ceilingHeight: meta.ceilingHeight != null ? Number(meta.ceilingHeight) : '',
+    bedrooms: meta.bedrooms != null ? Number(meta.bedrooms) : '',
+    hotelRooms: meta.hotelRooms != null ? Number(meta.hotelRooms) : '',
+    hotelRoomsForSale: meta.hotelRoomsForSale != null ? Number(meta.hotelRoomsForSale) : '',
+    beds: meta.beds != null ? Number(meta.beds) : '',
+  };
+}
+
+function typeCat(t){
+  const residential = ['Квартира','Студия','Апартаменты','Пентхаус','Таунхаус','Дом','Коттедж','Вилла','Дача','Особняк'];
+  const land = ['Земельный участок','Участок ИЖС','Участок ЛПХ','Участок СНТ','Сельхозназначение'];
+  const commercial = ['Коммерческое помещение','Офис','Магазин','Торговое помещение','Склад','Производство','Кафе / ресторан','Помещение свободного назначения','Автосервис'];
+  const hotel = ['Гостиничный номер','Апарт-отель','Гостиница','Отель','Хостел','Пансионат','База отдыха','Глэмпинг'];
+  const garage = ['Гараж','Машиноместо','Кладовая'];
+  if (residential.includes(t)) return 'residential';
+  if (land.includes(t)) return 'land';
+  if (commercial.includes(t)) return 'commercial';
+  if (hotel.includes(t)) return 'hotel';
+  if (garage.includes(t)) return 'garage';
+  return '';
+}
+
+function buildObjectSpecs(o){
+  const t = o.type || '';
+  const cat = typeCat(t);
+  const specs = [];
+  const push = (l, v) => { if (v !== '' && v != null) specs.push([l, v]); };
+
+  push('Тип', o.type);
+  push('Сделка', o.deal);
+  if (o.tag) push('Метка', o.tag);
+
+  if (cat === 'residential'){
+    if (o.rooms) push('Комнат', o.rooms);
+    if (o.bedrooms) push('Спален', o.bedrooms);
+    if (o.bathrooms) push('Санузлов', o.bathrooms);
+  }
+  if (cat === 'hotel'){
+    if (o.hotelRooms){
+      push('Номеров', o.hotelRoomsForSale && o.hotelRoomsForSale !== o.hotelRooms
+        ? (o.hotelRoomsForSale + ' из ' + o.hotelRooms) : o.hotelRooms);
+    }
+    if (o.beds) push('Мест', o.beds);
+    if (o.roomCategory) push('Категория', o.roomCategory);
+    if (o.stars) push('Звёздность', o.stars);
+    if (o.view) push('Вид', o.view);
+    if (o.hotelBusiness) push('Бизнес', o.hotelBusiness);
+    if (o.hotelOccupancy) push('Заполняемость', o.hotelOccupancy + ' %');
+    if (o.hotelADR) push('ADR', Number(o.hotelADR).toLocaleString('ru-RU') + ' ₽');
+  }
+
+  if (o.area) push('Площадь', o.area + (cat === 'land' ? ' сот.' : ' м²'));
+  if (o.kitchenArea && cat === 'residential') push('Кухня', o.kitchenArea + ' м²');
+  if (o.landArea) push('Участок', o.landArea + ' сот.');
+  if (o.ceilingHeight) push('Потолки', o.ceilingHeight + ' м');
+  if (o.floor && (cat === 'residential' || cat === 'commercial' || cat === 'hotel'))
+    push('Этаж', o.floor + (o.floors ? ' / ' + o.floors : ''));
+  if (o.yearBuilt) push('Год', o.yearBuilt);
+
+  if (o.isNew) push('Тип жилья', o.isNew);
+  if (o.layout) push('Планировка', o.layout);
+  if (o.finish) push('Отделка', o.finish);
+  if (o.houseType) push('Тип дома', o.houseType);
+  if (o.complex) push('ЖК', o.complex);
+  if (o.buildingNo) push('Корпус', o.buildingNo);
+  if (o.deliveryDate) push('Срок сдачи', o.deliveryDate);
+  if (o.escrow) push('Договор', o.escrow);
+  if (o.mortgage) push('Ипотека', o.mortgage);
+  if (o.elevators) push('Лифты', o.elevators);
+
+  if (o.balcony) push('Балкон', o.balcony);
+  if (o.parking) push('Парковка', o.parking);
+  if (o.renovation) push('Ремонт', o.renovation);
+  if (o.developer) push('Застройщик', o.developer);
+  if (o.furniture) push('Мебель', o.furniture);
+
+  if (cat === 'commercial'){
+    if (o.entrance) push('Вход', o.entrance);
+    if (o.showcases) push('Витрины', o.showcases);
+    if (o.power) push('Мощность', o.power + ' кВт');
+    if (o.purpose) push('Назначение', o.purpose);
+  }
+  if (cat === 'land'){
+    if (o.landPurpose) push('Назначение', o.landPurpose);
+    if (o.landCategory) push('Категория', o.landCategory);
+  }
+  if (cat === 'garage' && o.garageType) push('Конструкция', o.garageType);
+  if (o.cadastral) push('Кадастр', o.cadastral);
+
+  return specs;
+}
+
+function featureList(o){
+  return String(o.features || '').split(/\r?\n|;/).map(s => s.trim()).filter(Boolean)
+    .filter(s => !s.startsWith(META_PREFIX));
+}
 const WHATSAPP_NUMBER = '79391022727';
 const TELEGRAM_HANDLE = '_real_estate';
 const CESSION_TAG = 'Переуступка';
@@ -1133,8 +1258,8 @@ async function loadCessions(){
     const r = await res.json();
     if (!r.ok) throw new Error(r.error || 'API error');
     ALL_OBJECTS = (r.objects || [])
-      .filter(o => (o.tag || '').trim().toLowerCase() === CESSION_TAG.toLowerCase())
-      .map(o => ({ ...o, price:Number(o.price)||0, area:Number(o.area)||0, rooms:Number(o.rooms)||0, floor:Number(o.floor)||0, floors:Number(o.floors)||0 }))
+      .filter(o => (o.tag || '').trim().toLowerCase() === CESSION_TAG.toLowerCase() || (o.deal || '') === 'Переуступка')
+      .map(enrichObject)
       .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     cessionCount.textContent = ALL_OBJECTS.length;
     if (!ALL_OBJECTS.length){
@@ -1194,6 +1319,7 @@ function cardHTML(o){
       <div class="obj-photo">
         ${photoHTML}
         ${o.tag ? `<span class="obj-tag">${escapeAttr(o.tag)}</span>` : ''}
+        ${o.isNew === 'Новостройка' ? '<span class="obj-badge-new">Новостройка</span>' : ''}
         <span class="obj-deal">Переуступка</span>
       </div>
       <div class="obj-body">
@@ -1220,33 +1346,12 @@ function openModal(objId){
   modalPhotoIdx = 0; renderGallery();
   document.getElementById('mTitle').textContent = o.title || '—';
   document.getElementById('mLoc').textContent = [o.district, o.address].filter(Boolean).join(', ') || '—';
-  const t = o.type || '';
-  const isLand = t === 'Земельный участок';
-  const isCommercial = t === 'Коммерческое помещение';
-  const isGarage = ['Гараж','Машиноместо'].includes(t);
-  const isResidential = ['Квартира','Пентхаус','Таунхаус','Дом'].includes(t);
-  const specs = [];
-  if (o.type) specs.push(['Тип', o.type]);
-  specs.push(['Формат', 'Переуступка']);
-  if (o.rooms && isResidential) specs.push(['Комнат', o.rooms]);
-  if (o.area) specs.push(['Площадь', o.area + (isLand ? ' сот.' : ' м²')]);
-  if (o.kitchenArea){
-    if (isResidential) specs.push(['Кухня', o.kitchenArea + ' м²']);
-    else if (isCommercial) specs.push(['Выс. потолков', o.kitchenArea + ' м']);
-    else if (isGarage) specs.push(['Высота', o.kitchenArea + ' м']);
-  }
-  if (o.floor && (isResidential || isCommercial)) specs.push(['Этаж', o.floor + (o.floors ? ' / ' + o.floors : '')]);
-  if (o.yearBuilt && isResidential) specs.push(['Год', o.yearBuilt]);
-  if (o.bathrooms && isResidential) specs.push(['Санузлов', o.bathrooms]);
-  if (o.balcony && isResidential) specs.push(['Балкон', o.balcony]);
-  if (o.parking) specs.push(['Парковка', o.parking]);
-  if (o.renovation && isResidential) specs.push(['Ремонт', o.renovation]);
-  if (o.developer) specs.push(['Застройщик', o.developer]);
+  const specs = buildObjectSpecs(o);
   document.getElementById('mSpecs').innerHTML = specs.map(([l,v]) => `<div class="spec"><label>${escapeAttr(l)}</label><b>${escapeAttr(v)}</b></div>`).join('');
   const videoBox = document.getElementById('mVideo');
   if (o.video){ videoBox.hidden = false; videoBox.innerHTML = buildVideoHTML(o.video); } else { videoBox.hidden = true; videoBox.innerHTML = ''; }
   document.getElementById('mDesc').textContent = o.descFull || o.descShort || '';
-  const feats = (o.features||'').split(/\r?\n|;/).map(s=>s.trim()).filter(Boolean);
+  const feats = featureList(o);
   const featsBox = document.getElementById('mFeatures');
   featsBox.innerHTML = feats.map(f => `<span>${escapeAttr(f)}</span>`).join('');
   featsBox.hidden = feats.length === 0;
