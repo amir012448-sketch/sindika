@@ -1646,40 +1646,95 @@ img{max-width:100%;display:block}
 }
 .specs-grid{
   display:grid;grid-template-columns:repeat(2,1fr);
-  gap:8px;margin-bottom:22px;
+  gap:10px;margin-bottom:24px;
 }
 .spec{
-  padding:13px 15px;
-  background:var(--bg-2);
-  border:1px solid var(--line);
-  border-radius:14px;
+  position:relative;
+  padding:15px 15px 14px;
+  background:
+    linear-gradient(155deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,.03) 55%, rgba(95,240,208,.03) 100%);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  box-shadow:
+    0 10px 28px -16px rgba(0,0,0,.85),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  overflow:hidden;
+  transition:
+    transform .22s var(--spring),
+    border-color .25s var(--ease),
+    box-shadow .3s var(--ease);
+}
+.spec::before{
+  content:"";
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent 0%, rgba(95,240,208,.45) 30%, rgba(255,217,120,.4) 70%, transparent 100%);
+  opacity:.9;
+}
+.spec::after{
+  content:"";
+  position:absolute;bottom:-20px;right:-16px;
+  width:70px;height:70px;border-radius:50%;
+  background:radial-gradient(circle, rgba(95,240,208,.1), transparent 70%);
+  pointer-events:none;
+}
+.spec:active{
+  transform:scale(.98);
+  border-color:rgba(95,240,208,.38);
+  box-shadow:
+    0 14px 36px -14px rgba(0,0,0,.9),
+    0 0 32px -12px rgba(95,240,208,.35),
+    inset 0 1px 0 rgba(255,255,255,.12);
 }
 .spec label{
-  display:block;font-size:10px;font-weight:750;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--text-3);margin-bottom:4px;
+  display:block;font-size:9.5px;font-weight:850;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(143,242,225,.72);margin-bottom:7px;
 }
 .spec b{
-  font-family:'Inter Tight',sans-serif;font-weight:700;
-  font-size:14px;color:var(--text);
+  font-family:'Inter Tight',sans-serif;font-weight:750;
+  font-size:15px;color:#fff;
+  letter-spacing:-.02em;line-height:1.25;
+  word-break:break-word;
+  text-shadow:0 1px 10px rgba(0,0,0,.2);
 }
-.detail-sec{margin-bottom:22px}
+.detail-sec{margin-bottom:26px}
 .detail-sec h3{
   font-family:'Inter Tight',sans-serif;font-weight:700;
-  font-size:14px;color:var(--text);margin-bottom:10px;
+  font-size:15.5px;color:#fff;margin-bottom:14px;
+  letter-spacing:-.022em;
+  display:flex;align-items:center;gap:10px;
+}
+.detail-sec h3::after{
+  content:"";
+  flex:1;height:1px;
+  background:linear-gradient(90deg, rgba(95,240,208,.25), rgba(255,217,120,.15), transparent);
 }
 .detail-desc{
   font-size:14px;line-height:1.7;color:var(--text-2);
   white-space:pre-wrap;
 }
-.feat-chips{display:flex;flex-wrap:wrap;gap:6px}
+.feat-chips{display:flex;flex-wrap:wrap;gap:8px}
 .feat-chips span{
-  padding:7px 13px;border-radius:99px;
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.10);
-  font-size:12px;font-weight:650;
-  color:rgba(255,255,255,.78);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  padding:8px 14px;border-radius:999px;
+  background:linear-gradient(135deg, rgba(95,240,208,.1), rgba(255,255,255,.05));
+  border:1px solid rgba(95,240,208,.22);
+  font-size:12px;font-weight:700;
+  color:#d4f8f0;
+  box-shadow:
+    0 0 18px -10px rgba(95,240,208,.35),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  transition:
+    transform .2s var(--spring),
+    border-color .2s var(--ease),
+    background .2s var(--ease),
+    box-shadow .25s var(--ease);
+}
+.feat-chips span:active{
+  transform:scale(.96);
+  border-color:rgba(95,240,208,.45);
+  background:rgba(95,240,208,.16);
+  color:#8ff2e1;
+  box-shadow:0 0 24px -8px rgba(95,240,208,.5);
 }
 
 .similar-scroll{
@@ -3435,6 +3490,131 @@ body.is-scrolling .hero-card::after{
    СИНДИКА — APP LOGIC
    ========================================================= */
 const API_URL = 'https://script.google.com/macros/s/AKfycbyN-SkX6dcHesTbmQUnu57YHTBtJASnaV6PcJBwX3N47C0UIPNI6GN0sNYxlPZRLLvnbQ/exec';
+
+/* === СИНДИКА: поля из админки (обогащение объектов) === */
+const META_PREFIX = '__meta:';
+function parseFeatures(str){
+  const lines = String(str || '').split(/\r?\n/);
+  let meta = {}; const rest = [];
+  for (const line of lines){
+    const t = line.trim();
+    if (t.startsWith(META_PREFIX)){
+      try { meta = JSON.parse(t.slice(META_PREFIX.length)) || {}; } catch(e){}
+    } else if (t) rest.push(t);
+  }
+  return { meta, features: rest };
+}
+function enrichObject(o){
+  const { meta, features } = parseFeatures(o.features || '');
+  return {
+    ...o,
+    ...meta,
+    features: features.join('\n'),
+    price: Number(o.price) || 0,
+    area: Number(o.area) || 0,
+    rooms: Number(o.rooms) || 0,
+    floor: Number(o.floor) || 0,
+    floors: Number(o.floors) || 0,
+    kitchenArea: o.kitchenArea !== '' && o.kitchenArea != null ? Number(o.kitchenArea) : (meta.kitchenArea != null ? Number(meta.kitchenArea) : ''),
+    bathrooms: o.bathrooms !== '' && o.bathrooms != null ? Number(o.bathrooms) : '',
+    yearBuilt: o.yearBuilt !== '' && o.yearBuilt != null ? Number(o.yearBuilt) : '',
+    landArea: meta.landArea != null ? Number(meta.landArea) : (o.landArea != null ? Number(o.landArea) : ''),
+    ceilingHeight: meta.ceilingHeight != null ? Number(meta.ceilingHeight) : '',
+    bedrooms: meta.bedrooms != null ? Number(meta.bedrooms) : '',
+    hotelRooms: meta.hotelRooms != null ? Number(meta.hotelRooms) : '',
+    hotelRoomsForSale: meta.hotelRoomsForSale != null ? Number(meta.hotelRoomsForSale) : '',
+    beds: meta.beds != null ? Number(meta.beds) : '',
+  };
+}
+
+function typeCat(t){
+  const residential = ['Квартира','Студия','Апартаменты','Пентхаус','Таунхаус','Дом','Коттедж','Вилла','Дача','Особняк'];
+  const land = ['Земельный участок','Участок ИЖС','Участок ЛПХ','Участок СНТ','Сельхозназначение'];
+  const commercial = ['Коммерческое помещение','Офис','Магазин','Торговое помещение','Склад','Производство','Кафе / ресторан','Помещение свободного назначения','Автосервис'];
+  const hotel = ['Гостиничный номер','Апарт-отель','Гостиница','Отель','Хостел','Пансионат','База отдыха','Глэмпинг'];
+  const garage = ['Гараж','Машиноместо','Кладовая'];
+  if (residential.includes(t)) return 'residential';
+  if (land.includes(t)) return 'land';
+  if (commercial.includes(t)) return 'commercial';
+  if (hotel.includes(t)) return 'hotel';
+  if (garage.includes(t)) return 'garage';
+  return '';
+}
+
+function buildObjectSpecs(o){
+  const t = o.type || '';
+  const cat = typeCat(t);
+  const specs = [];
+  const push = (l, v) => { if (v !== '' && v != null) specs.push([l, v]); };
+
+  push('Тип', o.type);
+  push('Сделка', o.deal);
+  if (o.tag) push('Метка', o.tag);
+
+  if (cat === 'residential'){
+    if (o.rooms) push('Комнат', o.rooms);
+    if (o.bedrooms) push('Спален', o.bedrooms);
+    if (o.bathrooms) push('Санузлов', o.bathrooms);
+  }
+  if (cat === 'hotel'){
+    if (o.hotelRooms){
+      push('Номеров', o.hotelRoomsForSale && o.hotelRoomsForSale !== o.hotelRooms
+        ? (o.hotelRoomsForSale + ' из ' + o.hotelRooms) : o.hotelRooms);
+    }
+    if (o.beds) push('Мест', o.beds);
+    if (o.roomCategory) push('Категория', o.roomCategory);
+    if (o.stars) push('Звёздность', o.stars);
+    if (o.view) push('Вид', o.view);
+    if (o.hotelBusiness) push('Бизнес', o.hotelBusiness);
+    if (o.hotelOccupancy) push('Заполняемость', o.hotelOccupancy + ' %');
+    if (o.hotelADR) push('ADR', Number(o.hotelADR).toLocaleString('ru-RU') + ' ₽');
+  }
+
+  if (o.area) push('Площадь', o.area + (cat === 'land' ? ' сот.' : ' м²'));
+  if (o.kitchenArea && cat === 'residential') push('Кухня', o.kitchenArea + ' м²');
+  if (o.landArea) push('Участок', o.landArea + ' сот.');
+  if (o.ceilingHeight) push('Потолки', o.ceilingHeight + ' м');
+  if (o.floor && (cat === 'residential' || cat === 'commercial' || cat === 'hotel'))
+    push('Этаж', o.floor + (o.floors ? ' / ' + o.floors : ''));
+  if (o.yearBuilt) push('Год', o.yearBuilt);
+
+  if (o.isNew) push('Тип жилья', o.isNew);
+  if (o.layout) push('Планировка', o.layout);
+  if (o.finish) push('Отделка', o.finish);
+  if (o.houseType) push('Тип дома', o.houseType);
+  if (o.complex) push('ЖК', o.complex);
+  if (o.buildingNo) push('Корпус', o.buildingNo);
+  if (o.deliveryDate) push('Срок сдачи', o.deliveryDate);
+  if (o.escrow) push('Договор', o.escrow);
+  if (o.mortgage) push('Ипотека', o.mortgage);
+  if (o.elevators) push('Лифты', o.elevators);
+
+  if (o.balcony) push('Балкон', o.balcony);
+  if (o.parking) push('Парковка', o.parking);
+  if (o.renovation) push('Ремонт', o.renovation);
+  if (o.developer) push('Застройщик', o.developer);
+  if (o.furniture) push('Мебель', o.furniture);
+
+  if (cat === 'commercial'){
+    if (o.entrance) push('Вход', o.entrance);
+    if (o.showcases) push('Витрины', o.showcases);
+    if (o.power) push('Мощность', o.power + ' кВт');
+    if (o.purpose) push('Назначение', o.purpose);
+  }
+  if (cat === 'land'){
+    if (o.landPurpose) push('Назначение', o.landPurpose);
+    if (o.landCategory) push('Категория', o.landCategory);
+  }
+  if (cat === 'garage' && o.garageType) push('Конструкция', o.garageType);
+  if (o.cadastral) push('Кадастр', o.cadastral);
+
+  return specs;
+}
+
+function featureList(o){
+  return String(o.features || '').split(/\r?\n|;/).map(s => s.trim()).filter(Boolean)
+    .filter(s => !s.startsWith(META_PREFIX));
+}
 const WHATSAPP_NUMBER = '79391022727';
 const CACHE_KEY = 'sindika_cache_v1';
 const CACHE_TTL = 5 * 60 * 1000;
@@ -3942,7 +4122,7 @@ function objCardHTML(o){
     <article class="obj-card" data-id="${esc(o.id)}" role="button" tabindex="0">
       <div class="obj-photo">
         ${photoHTML}
-        ${o.tag ? `<span class="obj-tag">${esc(o.tag)}</span>` : ''}
+        ${o.tag ? `<span class="obj-tag">${esc(o.tag)}</span>` : ''}${o.isNew === 'Новостройка' ? '<span class="obj-badge-new">Новостройка</span>' : ''}
         ${compareBtnHTML(o)}
         <button class="card-fav ${fav ? 'active' : ''}" data-fav-id="${esc(o.id)}" aria-label="В избранное" aria-pressed="${fav}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
@@ -4139,14 +4319,7 @@ async function fetchAndUpdate(){
   }
 }
 function applyObjects(raw){
-  ALL_OBJECTS = raw.map(o => ({
-    ...o,
-    price: Number(o.price) || 0,
-    area: Number(o.area) || 0,
-    rooms: Number(o.rooms) || 0,
-    floor: Number(o.floor) || 0,
-    floors: Number(o.floors) || 0
-  }));
+  ALL_OBJECTS = raw.map(enrichObject);
 
   CESSION_OBJECTS = ALL_OBJECTS
     .filter(isCessionObject)
@@ -4188,29 +4361,14 @@ function openDetail(id){
   const perM2 = fmtPricePerM2(o);
   $('#dPriceSub').textContent = perM2 || '';
 
-  const t = o.type || '';
-  const isLand = t === 'Земельный участок';
-  const isResidential = ['Квартира','Пентхаус','Таунхаус','Дом'].includes(t);
-  const isCommercial = t === 'Коммерческое помещение';
-  const specs = [];
-  if (o.type) specs.push(['Тип', o.type]);
-  if (o.deal) specs.push(['Сделка', o.deal]);
-  if (o.rooms && isResidential) specs.push(['Комнат', o.rooms]);
-  if (o.area) specs.push(['Площадь', o.area + (isLand ? ' сот.' : ' м²')]);
-  if (o.floor && (isResidential || isCommercial)) specs.push(['Этаж', o.floor + (o.floors ? ' / ' + o.floors : '')]);
-  if (o.yearBuilt && isResidential) specs.push(['Год', o.yearBuilt]);
-  if (o.bathrooms && isResidential) specs.push(['Санузлов', o.bathrooms]);
-  if (o.balcony && isResidential) specs.push(['Балкон', o.balcony]);
-  if (o.renovation && isResidential) specs.push(['Ремонт', o.renovation]);
-  if (o.developer) specs.push(['Застройщик', o.developer]);
-  if (o.parking) specs.push(['Парковка', o.parking]);
+  const specs = buildObjectSpecs(o);
   $('#dSpecs').innerHTML = specs.map(([l,v]) => `<div class="spec"><label>${esc(l)}</label><b>${esc(v)}</b></div>`).join('');
 
   const desc = o.descFull || o.descShort || '';
   $('#dDescWrap').hidden = !desc;
   $('#dDesc').textContent = desc;
 
-  const feats = (o.features||'').split(/\r?\n|;/).map(s=>s.trim()).filter(Boolean);
+  const feats = featureList(o);
   $('#dFeatWrap').hidden = !feats.length;
   $('#dFeat').innerHTML = feats.map(f => `<span>${esc(f)}</span>`).join('');
 
